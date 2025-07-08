@@ -1,68 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Converter</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 2rem;
-    }
-    input, select, button {
-      margin: 0.5rem;
-    }
-    img {
-      max-width: 100%;
-      margin-top: 1rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Converter - ImageSolutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Uppy.io CSS for the uploader UI -->
+    <link href="https://releases.transloadit.com/uppy/v3.3.1/uppy.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF4F;
+            --secondary-color: #263238;
+            --text-color: #717171;
+            --light-bg: #F5F7FA;
+            --white: #FFFFFF;
+            --border-color: #e0e0e0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            padding: 2rem;
+        }
+        .tool-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tool-header h1 {
+            font-size: 1.75rem;
+            color: var(--secondary-color);
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border-color: var(--border-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--light-bg);
+            border-color: #ccc;
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+        .btn-primary:disabled {
+            background-color: #a5d6a7;
+            cursor: not-allowed;
+        }
+        .tool-content {
+            padding: 2rem;
+        }
+        /* Uppy Drag & Drop Styles */
+        #uppy-drag-drop {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+        #uppy-drag-drop.uppy-is-drag-over {
+            border-color: var(--primary-color);
+            background-color: #e8f5e9;
+        }
+        .uppy-DragDrop-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .uppy-DragDrop-note { margin-top: 0.5rem; }
+        .cloud-sources { margin-top: 1rem; text-align: center; }
+        .cloud-sources p { margin-bottom: 0.5rem; font-weight: 500; color: var(--secondary-color); }
+        .cloud-sources .btn { margin: 0 0.5rem; }
+        
+        /* Options & Results Styles */
+        .hidden { display: none; }
+        #options-container, #results-area, #explore-tools { margin-top: 2.5rem; }
+        .options-box {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .options-box label { font-weight: 600; margin-right: 1rem; color: var(--secondary-color); }
+        .options-box select {
+            padding: 0.75rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            font-size: 1rem;
+        }
+        #process-btn { margin-top: 1.5rem; width: 100%; font-size: 1.1rem; }
+        
+        #results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .result-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--white);
+        }
+        .result-preview {
+            width: 100%;
+            height: 150px;
+            background: var(--light-bg) center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .result-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .result-info { padding: 1rem; }
+        .result-info h4 {
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        .size-info { font-size: 0.8rem; margin-bottom: 1rem; }
+        .size-info span { font-weight: 600; }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        .progress-bar-fill {
+            width: 0%;
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        .download-btn { width: 100%; text-align: center; }
+        .download-btn i { margin-right: 0.5rem; }
+        
+        #download-all-container { text-align: center; margin-top: 2rem; }
+        
+        #explore-tools h3 { text-align: center; margin-bottom: 1.5rem; }
+        .explore-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .explore-card {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            padding: 1.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .explore-card:hover { transform: translateY(-5px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-color: var(--primary-color); }
+    </style>
 </head>
 <body>
-  <h2>Convert Your Image</h2>
-  <input type="file" id="upload" accept="image/*">
-  <br>
-  <select id="format">
-    <option value="image/jpeg">Convert to JPG</option>
-    <option value="image/png">Convert to PNG</option>
-    <option value="image/webp">Convert to WebP</option>
-  </select>
-  <button onclick="convertImage()">Convert</button>
-  <div id="output"></div>
 
-  <script>
-    let originalImg;
+<div class="tool-container">
+    <header class="tool-header">
+        <h1>Image Converter</h1>
+        <a href="../index.html#tools" class="btn btn-secondary">Go Back</a>
+    </header>
 
-    document.getElementById('upload').addEventListener('change', function (e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        originalImg = new Image();
-        originalImg.src = event.target.result;
-        originalImg.onload = () => {
-          document.getElementById('output').innerHTML = '<img src=\"' + event.target.result + '\" alt=\"Original\">';
-        };
-      };
-      reader.readAsDataURL(file);
+    <main class="tool-content">
+        <div id="upload-area">
+            <div id="uppy-drag-drop"></div>
+            <div class="cloud-sources">
+                <p>Or upload from:</p>
+                <button class="btn btn-secondary" id="google-drive-btn">Google Drive</button>
+                <button class="btn btn-secondary" id="dropbox-btn">Dropbox</button>
+            </div>
+        </div>
+
+        <div id="options-container" class="hidden">
+            <div class="options-box">
+                <label for="format">Convert all images to:</label>
+                <select id="format">
+                    <option value="image/jpeg">JPG</option>
+                    <option value="image/png">PNG</option>
+                    <option value="image/webp">WebP</option>
+                </select>
+                <button id="process-btn" class="btn btn-primary">Convert Files</button>
+            </div>
+        </div>
+
+        <div id="results-area" class="hidden">
+            <div id="results-container"></div>
+            <div id="download-all-container" class="hidden">
+                <button id="download-zip-btn" class="btn btn-primary">Download All as ZIP</button>
+            </div>
+        </div>
+        
+        <div id="explore-tools" class="hidden">
+             <h3>Try Our Other Tools</h3>
+             <div class="explore-grid">
+                <a href="compress.html" class="explore-card">Compress</a>
+                <a href="resize.html" class="explore-card">Resize</a>
+                <a href="crop.html" class="explore-card">Crop</a>
+             </div>
+        </div>
+    </main>
+</div>
+
+<!-- Uppy.io Core and Plugins -->
+<script src="https://releases.transloadit.com/uppy/v3.3.1/uppy.min.js"></script>
+<script src="https://releases.transloadit.com/uppy/v3.3.1/uppy.legacy.min.js" nomodule></script>
+<script src="https://releases.transloadit.com/uppy/locales/v3.1.2/en_US.min.js"></script>
+
+<!-- JSZip for creating zip files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<!-- Font Awesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+<script type="module">
+    import {
+        Uppy,
+        DragDrop,
+        Dashboard,
+        GoogleDrive,
+        Dropbox
+    } from "https://releases.transloadit.com/uppy/v3.3.1/uppy.mjs"
+
+    const optionsContainer = document.getElementById('options-container');
+    const resultsArea = document.getElementById('results-area');
+    const resultsContainer = document.getElementById('results-container');
+    const processBtn = document.getElementById('process-btn');
+    const downloadAllContainer = document.getElementById('download-all-container');
+    const exploreTools = document.getElementById('explore-tools');
+    const uploadArea = document.getElementById('upload-area');
+
+    const uppy = new Uppy({
+        autoProcess: false,
+        restrictions: {
+            allowedFileTypes: ['image/*']
+        }
+    })
+    .use(DragDrop, { target: '#uppy-drag-drop' })
+    .use(Dashboard, {
+        inline: false,
+        trigger: '#uppy-modal-trigger-btn', // dummy trigger
+        plugins: ['GoogleDrive', 'Dropbox'],
+        proudlyDisplayPoweredByUppy: false
+    })
+    .use(GoogleDrive, { companionUrl: 'https://companion.uppy.io' })
+    .use(Dropbox, { companionUrl: 'https://companion.uppy.io' });
+
+    document.getElementById('google-drive-btn').onclick = () => uppy.getPlugin('Dashboard').openModal();
+    document.getElementById('dropbox-btn').onclick = () => uppy.getPlugin('Dashboard').openModal();
+
+    uppy.on('file-added', () => {
+        if (uppy.getFiles().length > 0) {
+            optionsContainer.classList.remove('hidden');
+        }
     });
 
-    function convertImage() {
-      if (!originalImg) return alert('Please upload an image first');
-      const format = document.getElementById('format').value;
-      const canvas = document.createElement('canvas');
-      canvas.width = originalImg.width;
-      canvas.height = originalImg.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(originalImg, 0, 0);
-      const converted = canvas.toDataURL(format);
-      const ext = format.split('/')[1];
-      document.getElementById('output').innerHTML = `
-        <img src=\"${converted}\" alt=\"Converted Image\">
-        <a href=\"${converted}\" download=\"converted-image.${ext}\">Download Converted Image</a>
-      `;
+    uppy.on('file-removed', () => {
+        if (uppy.getFiles().length === 0) {
+            optionsContainer.classList.add('hidden');
+        }
+    });
+
+    processBtn.addEventListener('click', processImages);
+
+    let convertedFiles = [];
+
+    async function processImages() {
+        processBtn.disabled = true;
+        processBtn.textContent = 'Processing...';
+        resultsArea.classList.remove('hidden');
+        resultsContainer.innerHTML = '';
+        convertedFiles = [];
+        
+        const files = uppy.getFiles();
+        const format = document.getElementById('format').value;
+
+        for (const file of files) {
+            const resultCard = createResultCard(file);
+            resultsContainer.appendChild(resultCard);
+            try {
+                const converted = await convertFile(file, format, resultCard);
+                convertedFiles.push(converted);
+            } catch (error) {
+                console.error("Conversion failed for", file.name, error);
+                // You could update the card to show an error state
+            }
+        }
+        
+        processBtn.textContent = 'Conversion Complete!';
+        
+        if (convertedFiles.length > 1) {
+            downloadAllContainer.classList.remove('hidden');
+            document.getElementById('download-zip-btn').addEventListener('click', createAndDownloadZip);
+        }
+        exploreTools.classList.remove('hidden');
     }
-  </script>
+
+    function createResultCard(file) {
+        const card = document.createElement('div');
+        card.className = 'result-card';
+        card.innerHTML = `
+            <div class="result-preview" style="background-image: url(${file.preview})"></div>
+            <div class="result-info">
+                <h4>${file.name}</h4>
+                <p class="size-info">Original: <span>${(file.size / 1024).toFixed(2)} KB</span></p>
+                <div class="progress-bar"><div class="progress-bar-fill"></div></div>
+                <a href="#" class="btn btn-primary download-btn hidden"><i class="fas fa-download"></i> Download</a>
+            </div>
+        `;
+        return card;
+    }
+    
+    function convertFile(file, format, card) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file.data);
+            reader.onload = event => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const progressBar = card.querySelector('.progress-bar-fill');
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+
+                    canvas.toBlob(blob => {
+                        const url = URL.createObjectURL(blob);
+                        const downloadLink = card.querySelector('.download-btn');
+                        const ext = format.split('/')[1];
+                        const newName = `${file.name.split('.').slice(0, -1).join('.')}.${ext}`;
+                        
+                        downloadLink.href = url;
+                        downloadLink.download = newName;
+                        downloadLink.classList.remove('hidden');
+                        
+                        card.querySelector('.result-preview').innerHTML = `<img src="${url}" alt="Converted preview">`;
+                        card.querySelector('.size-info').innerHTML += ` | Converted: <span>${(blob.size / 1024).toFixed(2)} KB</span>`;
+                        progressBar.style.width = '100%';
+                        
+                        resolve({ name: newName, blob });
+                    }, format, 0.9); // 0.9 quality for jpeg
+                };
+                img.onerror = reject;
+            };
+            reader.onerror = reject;
+        });
+    }
+
+    async function createAndDownloadZip() {
+        const zipBtn = document.getElementById('download-zip-btn');
+        zipBtn.textContent = 'Zipping...';
+        zipBtn.disabled = true;
+
+        const zip = new JSZip();
+        for (const file of convertedFiles) {
+            zip.file(file.name, file.blob);
+        }
+
+        zip.generateAsync({ type: 'blob' }).then(content => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(content);
+            link.download = 'ImageSolutions_Converted.zip';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            zipBtn.textContent = 'Downloaded!';
+        });
+    }
+
+</script>
+
 </body>
 </html>
