@@ -1,0 +1,10 @@
+<!-- assets/illustrations/feature-1.svg -->
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(100 100)">
+    <path d="M54.1,-29.9C67.8,-6.5,74.7,20.4,66.1,42.2C57.5,64,33.5,80.8,7.9,81.8C-17.7,82.8,-35.3,68,-48.8,49.2C-62.3,30.3,-71.7,7.4,-67.9,-12.9C-64.1,-33.2,-47.2,-51,-29.4,-60.1C-11.6,-69.2,-2.9,-69.6,10.2,-63.9C23.3,-58.2,40.4,-46.4,54.1,-29.9Z" fill="#E8F5E9" transform="scale(1.1)"/>
+    <path d="M-30,0 a30,30 0 0,1 60,0" fill="none" stroke="#4CAF4F" stroke-width="4"/>
+    <path d="M-30,0 v-30 a10,10 0 0,1 10,-10 h40 a10,10 0 0,1 10,10 v30" fill="none" stroke="#4CAF4F" stroke-width="4"/>
+    <circle cx="0" cy="-10" r="8" fill="#FFFFFF" stroke="#4CAF4F" stroke-width="4"/>
+    <rect x="-5" y="-2" width="10" height="15" fill="#4CAF4F" />
+  </g>
+</svg>

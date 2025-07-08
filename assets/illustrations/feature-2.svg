@@ -1,0 +1,10 @@
+<!-- assets/illustrations/feature-2.svg -->
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(100 100)">
+    <path d="M57.8,-36.8C70.3,-18.2,72.7,9.7,64.8,32.3C56.9,54.9,38.7,72.2,18,76C-2.7,79.8,-25.9,70,-43.3,53.4C-60.7,36.8,-72.3,13.4,-69.9,-8.2C-67.6,-29.8,-51.3,-49.6,-33.1,-58.8C-14.9,-68,-4.8,-66.6,11,-59.8C26.8,-53,45.3,-41.8,57.8,-36.8Z" fill="#E8F5E9" transform="scale(1.1)"/>
+    <path d="M-40 -20 H 40 M-40 0 H 40 M-40 20 H 40" stroke="#4CAF4F" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-10,-35 L10,-35 L0,-50 Z" fill="#4CAF4F"/>
+    <path d="M20,0 L45,0 L35,15 Z" fill="#4CAF4F" opacity="0.7"/>
+    <path d="M-45,20 L-20,20 L-30,35 Z" fill="#4CAF4F" opacity="0.7"/>
+  </g>
+</svg>
