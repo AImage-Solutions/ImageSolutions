@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Compress Image</title>
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
+</head>
+<body>
+  <h2>Compress Your Image</h2>
+  <input type="file" id="upload" accept="image/*">
+  <div id="output"></div>
+  <script>
+    document.getElementById('upload').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const options = { maxSizeMB: 1, maxWidthOrHeight: 1024, useWebWorker: true };
+      try {
+        const compressedFile = await imageCompression(file, options);
+        const url = URL.createObjectURL(compressedFile);
+        document.getElementById('output').innerHTML = `
+          <p>Original: ${(file.size / 1024).toFixed(2)} KB</p>
+          <p>Compressed: ${(compressedFile.size / 1024).toFixed(2)} KB</p>
+          <img src="${url}" alt="Compressed Image">
+          <a href="${url}" download="compressed-${file.name}">Download</a>
+        `;
+      } catch (err) {
+        alert("Compression failed: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>

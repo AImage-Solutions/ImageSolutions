@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Convert Image</title>
+</head>
+<body>
+  <h2>Convert Your Image</h2>
+  <input type="file" id="upload" accept="image/*"><br>
+  <select id="format">
+    <option value="image/jpeg">Convert to JPG</option>
+    <option value="image/png">Convert to PNG</option>
+    <option value="image/webp">Convert to WebP</option>
+  </select>
+  <button onclick="convertImage()">Convert</button>
+  <div id="output"></div>
+  <script>
+    let originalImg;
+    document.getElementById('upload').addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        originalImg = new Image();
+        originalImg.src = event.target.result;
+        originalImg.onload = () => {
+          document.getElementById('output').innerHTML = '<img src="' + event.target.result + '" alt="Original">';
+        };
+      };
+      reader.readAsDataURL(file);
+    });
+    function convertImage() {
+      if (!originalImg) return alert('Please upload an image first');
+      const format = document.getElementById('format').value;
+      const canvas = document.createElement('canvas');
+      canvas.width = originalImg.width;
+      canvas.height = originalImg.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(originalImg, 0, 0);
+      const converted = canvas.toDataURL(format);
+      const ext = format.split('/')[1];
+      document.getElementById('output').innerHTML = `
+        <img src="${converted}" alt="Converted Image">
+        <a href="${converted}" download="converted-image.${ext}">Download Converted Image</a>
+      `;
+    }
+  </script>
+</body>
+</html>

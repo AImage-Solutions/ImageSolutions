@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crop Image</title>
+  <link href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css" rel="stylesheet">
+</head>
+<body>
+  <h2>Crop Your Image</h2>
+  <input type="file" id="upload" accept="image/*">
+  <br><img id="image" style="max-width:100%;">
+  <br><button onclick="crop()">Crop</button>
+  <div id="result"></div>
+  <script src="https://cdn.jsdelivr.net/npm/cropperjs"></script>
+  <script>
+    let cropper;
+    document.getElementById('upload').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        document.getElementById('image').src = reader.result;
+        cropper = new Cropper(document.getElementById('image'), { aspectRatio: NaN });
+      };
+      reader.readAsDataURL(file);
+    });
+    function crop() {
+      const canvas = cropper.getCroppedCanvas();
+      const url = canvas.toDataURL();
+      document.getElementById('result').innerHTML = `<img src="${url}"><a href="${url}" download="cropped.png">Download</a>`;
+    }
+  </script>
+</body>
+</html>

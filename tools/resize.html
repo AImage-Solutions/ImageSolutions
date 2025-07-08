@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resize Image</title>
+</head>
+<body>
+  <h2>Resize Your Image</h2>
+  <input type="file" id="upload" accept="image/*"><br>
+  <input type="number" id="width" placeholder="Width"> 
+  <input type="number" id="height" placeholder="Height">
+  <button onclick="resize()">Resize</button>
+  <div id="result"></div>
+  <script>
+    let img;
+    document.getElementById('upload').addEventListener('change', (e) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        img = new Image();
+        img.onload = () => {
+          document.getElementById('result').innerHTML = `<img src="${img.src}" style="max-width:100%;">`;
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    });
+    function resize() {
+      const canvas = document.createElement('canvas');
+      const w = parseInt(document.getElementById('width').value);
+      const h = parseInt(document.getElementById('height').value);
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const url = canvas.toDataURL();
+      document.getElementById('result').innerHTML = `<img src="${url}"><a href="${url}" download="resized.png">Download</a>`;
+    }
+  </script>
+</body>
+</html>
