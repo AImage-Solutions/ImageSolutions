@@ -196,13 +196,14 @@
     </main>
 </div>
 
-<!-- Uppy.io Core and Plugins -->
-<script src="https://releases.transloadit.com/uppy/v3.12.1/uppy.min.js" type="module"></script>
-<!-- JSZip for creating zip files -->
+<!-- Library Scripts -->
+<script src="https://releases.transloadit.com/uppy/v3.12.1/uppy.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-<script type="module">
-    import { Uppy, Dashboard, GoogleDrive, Dropbox, Url } from "https://releases.transloadit.com/uppy/v3.12.1/uppy.mjs";
+<!-- Main Tool Logic -->
+<script>
+    // Destructure Uppy components from the global window.Uppy object
+    const { Uppy, Dashboard, GoogleDrive, Dropbox, Url } = window.Uppy;
 
     // --- DOM Elements ---
     const uploadBox = document.getElementById('upload-box');
@@ -235,16 +236,25 @@
         // --- THEME CONSISTENCY ---
         metaFields: [],
         note: 'Images only, please!',
-        style: {
-            // Using CSS variables to match the landing page theme
-            '--uppy-theme-primary': 'var(--primary-color)',
-            '--uppy-theme-primary-hover': 'var(--primary-color-dark)',
-            '--uppy-font-family-body': "'Inter', sans-serif",
-            '--uppy-font-family-title': "'Inter', sans-serif",
-        },
     }).use(GoogleDrive, { companionUrl: 'https://companion.uppy.io' })
       .use(Dropbox, { companionUrl: 'https://companion.uppy.io' })
       .use(Url, { companionUrl: 'https://companion.uppy.io' });
+    
+    // This part themes the Uppy modal dynamically after it's initialized
+    uppy.on('dashboard:init', () => {
+        const dashboard = uppy.getPlugin('Dashboard');
+        dashboard.setOptions({
+            // These CSS variables are injected into the modal's scope
+            // to ensure it matches the landing page theme.
+            theme: {
+                // We use getComputedStyle to read the CSS variables from our own stylesheet
+                '--uppy-theme-primary': getComputedStyle(document.documentElement).getPropertyValue('--primary-color'),
+                '--uppy-theme-primary-hover': getComputedStyle(document.documentElement).getPropertyValue('--primary-color-dark'),
+                '--uppy-font-family-body': getComputedStyle(document.documentElement).getPropertyValue('font-family'),
+                '--uppy-font-family-title': getComputedStyle(document.documentElement).getPropertyValue('font-family'),
+            }
+        });
+    });
 
     // --- Uppy Event Listeners ---
     uppy.on('files-added', (files) => {
@@ -252,7 +262,8 @@
         files.forEach(file => addFileToList(file));
     });
     uppy.on('file-removed', (file) => {
-        document.getElementById(`file-item-${file.id}`).remove();
+        const fileItem = document.getElementById(`file-item-${file.id}`);
+        if(fileItem) fileItem.remove();
         updateUI();
     });
 
@@ -292,17 +303,15 @@
         const isQualityApplicable = ['image/jpeg', 'image/webp'].includes(formatSelect.value);
         qualityGroup.classList.toggle('hidden', !isQualityApplicable);
     });
-
     qualitySlider.addEventListener('input', () => {
         qualityValue.textContent = parseFloat(qualitySlider.value).toFixed(1);
     });
-    
     clearAllBtn.addEventListener('click', () => {
         uppy.getFiles().forEach(file => uppy.removeFile(file.id));
     });
-    
     convertBtn.addEventListener('click', processImages);
     startOverBtn.addEventListener('click', resetTool);
+    downloadZipBtn.addEventListener('click', createAndDownloadZip);
 
 
     // --- Core Logic ---
@@ -310,7 +319,6 @@
         convertBtn.disabled = true;
         convertBtn.textContent = 'Processing...';
         convertedFiles = [];
-
         const files = uppy.getFiles();
         const format = formatSelect.value;
         const quality = parseFloat(qualitySlider.value);
@@ -324,15 +332,12 @@
                 convertedFiles.push(converted);
             } catch (error) {
                 statusEl.innerHTML = `<span style="color: #f44336;">Error</span>`;
-                console.error("Conversion failed for", file.name, error);
             }
         }
         
         fileProcessingArea.querySelector('.options-area').classList.add('hidden');
         finalActions.classList.remove('hidden');
-        if (convertedFiles.length < 2) {
-             downloadZipBtn.classList.add('hidden');
-        }
+        downloadZipBtn.classList.toggle('hidden', convertedFiles.length < 2);
         exploreTools.classList.remove('hidden');
     }
 
@@ -377,12 +382,10 @@
     async function createAndDownloadZip() {
         downloadZipBtn.textContent = 'Zipping...';
         downloadZipBtn.disabled = true;
-
         const zip = new JSZip();
         for (const file of convertedFiles) {
             zip.file(file.name, file.blob);
         }
-
         const content = await zip.generateAsync({ type: 'blob' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(content);
@@ -390,28 +393,23 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
         downloadZipBtn.textContent = 'Downloaded!';
     }
-    downloadZipBtn.addEventListener('click', createAndDownloadZip);
     
     function resetTool(){
         uppy.reset();
         fileListEl.innerHTML = '';
         convertedFiles = [];
-        
         fileProcessingArea.classList.add('hidden');
         finalActions.classList.add('hidden');
         exploreTools.classList.add('hidden');
         uploadBox.classList.remove('hidden');
-
         fileProcessingArea.querySelector('.options-area').classList.remove('hidden');
         convertBtn.disabled = false;
         convertBtn.textContent = 'Convert';
         downloadZipBtn.disabled = false;
         downloadZipBtn.textContent = 'Download All (ZIP)';
     }
-
 </script>
 </body>
 </html>
