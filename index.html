@@ -6,6 +6,8 @@
   <title>ImageSolutions - Online Image Tools</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Using Font Awesome for the new feature cards -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* --- CSS Variables and Base Styles --- */
     :root {
@@ -80,8 +82,8 @@
       align-items: center;
     }
     .logo { display: flex; align-items: center; text-decoration: none; }
-    .logo img { height: 28px; margin-right: 0.5rem; }
-    .logo span { font-size: 1.8rem; font-weight: 700; color: var(--secondary-color); }
+    /* --- MODIFICATION: Enlarged logo --- */
+    .logo img { height: 40px; }
     .main-nav ul { list-style: none; display: flex; gap: 2.5rem; }
     .main-nav a { text-decoration: none; color: var(--secondary-color); font-weight: 500; }
     .auth-buttons { display: flex; align-items: center; gap: 1rem; }
@@ -98,13 +100,14 @@
       justify-content: space-between;
       gap: 2rem;
     }
-    .hero-text { max-width: 50%; }
+    /* --- MODIFICATION: Adjusted flex-basis for hero elements --- */
+    .hero-text { flex-basis: 45%; }
     .hero-text span { color: var(--primary-color); }
     .hero-text p { margin: 1.5rem 0; }
-    .hero-image { max-width: 45%; }
+    .hero-image { flex-basis: 50%; }
     .hero-image img { width: 100%; }
 
-    /* --- Our Tools Section (Replaces "Our Clients") --- */
+    /* --- Our Tools Section --- */
     .our-tools { text-align: center; padding: 4rem 0; }
     .our-tools h2 { margin-bottom: 1rem; }
     .our-tools p { margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
@@ -128,24 +131,46 @@
     .tool-card img { height: 48px; margin-bottom: 1rem; }
     .tool-card h3 { margin-bottom: 0.5rem; font-size: 1.75rem; }
 
-    /* --- Feature Sections --- */
-    .feature-section { padding: 4rem 0; }
-    .feature-section .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 5rem;
+    /* --- MODIFICATION: NEW Features Section with Cards --- */
+    .features-section {
+      padding: 4rem 0;
+      background-color: var(--light-bg);
     }
-    .feature-section.reverse .container { flex-direction: row-reverse; }
-    .feature-image { flex-basis: 45%; }
-    .feature-image img { width: 100%; max-width: 400px; }
-    .feature-text { flex-basis: 55%; }
-    .feature-text h2 { margin-bottom: 1rem; line-height: 1.4; }
-    .feature-text p { margin-bottom: 2rem; }
+    .features-header {
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto 3rem auto;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    .feature-card {
+      background-color: var(--white);
+      padding: 2rem;
+      text-align: center;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(113,113,113,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(113,113,113,0.1);
+    }
+    .feature-card i {
+      font-size: 3rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
 
     /* --- CTA Section --- */
     .cta-section {
-      background-color: var(--light-bg);
+      background-color: var(--white);
       padding: 4rem 0;
       text-align: center;
     }
@@ -167,18 +192,6 @@
     .footer-col li { margin-bottom: 0.75rem; }
     .footer-col a { text-decoration: none; color: #D9DBE1; transition: color 0.3s ease; }
     .footer-col a:hover { color: var(--primary-color); }
-    .footer-socials { display: flex; gap: 1rem; margin-top: 1rem; }
-    .footer-socials a {
-      background-color: #455A64;
-      color: var(--white);
-      width: 32px;
-      height: 32px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      text-decoration: none;
-    }
     .footer-bottom {
       text-align: center;
       padding-top: 2rem;
@@ -192,24 +205,19 @@
       h2 { font-size: 1.8rem; }
       .main-nav { display: none; } /* Simplified for this example, a hamburger menu would be added here */
       .hero .container { flex-direction: column; text-align: center; }
-      .hero-text, .hero-image { max-width: 100%; }
-      .hero-image { margin-top: 2rem; }
+      .hero-text, .hero-image { max-width: 100%; flex-basis: auto; }
+      .hero-image { margin-top: 2rem; max-width: 80%; }
       .tool-cards { flex-direction: column; }
-      .feature-section .container, .feature-section.reverse .container {
-        flex-direction: column; text-align: center; gap: 2rem;
-      }
-      .feature-image { order: -1; margin-bottom: 2rem; }
     }
   </style>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Font Awesome for social icons -->
 </head>
 <body>
 
   <header class="header">
     <div class="container">
+      <!-- --- MODIFICATION: Removed text span, logo is now just the image --- -->
       <a href="index.html" class="logo">
         <img src="assets/images/logo.svg" alt="ImageSolutions Logo">
-        <span>ImageSolutions</span>
       </a>
       <nav class="main-nav">
         <ul>
@@ -268,29 +276,36 @@
       </div>
     </section>
 
-    <section class="feature-section" id="features">
-      <div class="container">
-        <div class="feature-image">
-          <img src="assets/illustrations/feature-1.svg" alt="Illustration of a secure lock">
+    <!-- --- MODIFICATION: Replaced old feature sections with this new card-based section --- -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="features-header">
+                <h2>Why Choose ImageSolutions?</h2>
+                <p>We've engineered our tools to be the best in their class, focusing on what matters most to you.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Absolute Privacy</h3>
+                    <p>Your images are processed in your browser. Nothing is ever uploaded to a server, ensuring 100% confidentiality.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Blazing Fast Speed</h3>
+                    <p>By using your computer's power, not a distant server, tasks are completed instantly. No more waiting for uploads.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-gem"></i>
+                    <h3>High-Quality Results</h3>
+                    <p>Our tools use advanced algorithms to ensure your images look great, with minimal quality loss during processing.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-gift"></i>
+                    <h3>Completely Free</h3>
+                    <p>Access all our powerful image tools for free, without any limits on usage. No hidden fees, no subscriptions.</p>
+                </div>
+            </div>
         </div>
-        <div class="feature-text">
-          <h2>Your Privacy is Our Priority. No Questions Asked.</h2>
-          <p>We believe your files are your business. ImageSolutions processes everything directly in your browser. This means your images are never uploaded, stored, or seen by anyone else. It's the most secure way to handle your images online.</p>
-          <a href="privacy-policy.html" class="btn btn-primary">Learn More</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="feature-section reverse">
-      <div class="container">
-        <div class="feature-image">
-          <img src="assets/illustrations/feature-2.svg" alt="Illustration showing speed and efficiency">
-        </div>
-        <div class="feature-text">
-          <h2>Blazing Fast Performance Without Compromise</h2>
-          <p>Tired of waiting for files to upload and process on a slow server? Our tools leverage the power of your own computer to deliver instant results. Get your work done in seconds, not minutes, and maintain the highest quality possible.</p>
-        </div>
-      </div>
     </section>
 
     <section class="cta-section">
@@ -305,12 +320,11 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col">
+          <!-- --- MODIFICATION: Removed text, logo is now just the image --- -->
           <a href="index.html" class="logo">
             <img src="assets/images/logo.svg" alt="ImageSolutions Logo">
-            <span style="color: white;">ImageSolutions</span>
           </a>
           <p style="margin-top: 1rem;">© 2025 ImageSolutions. All rights reserved.</p>
-          <!-- Socials can be added here if needed -->
         </div>
         <div class="footer-col">
           <h4>Company</h4>
@@ -333,7 +347,6 @@
         <div class="footer-col">
           <h4>Stay up to date</h4>
           <p>Get tips and updates (placeholder).</p>
-          <!-- Placeholder for a newsletter form -->
         </div>
       </div>
       <div class="footer-bottom">
