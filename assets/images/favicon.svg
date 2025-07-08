@@ -1,11 +1,7 @@
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#007BFF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#00C6FF;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  <circle cx="32" cy="32" r="30" fill="url(#grad1)"/>
-  <circle cx="32" cy="32" r="12" fill="white"/>
-  <path d="M25 32 L31 38 L41 28" stroke="#007BFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<!-- assets/images/favicon.svg -->
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="32" height="32" rx="6" fill="#F5F7FA"/>
+<path d="M17.489 19.1067L15.349 21.8267C14.999 22.2767 14.349 22.3667 13.899 22.0167L12.009 20.4967C11.559 20.1467 11.469 19.4967 11.819 19.0467L13.959 16.3267C14.309 15.8767 14.959 15.7867 15.409 16.1367L17.299 17.6567C17.749 18.0067 17.839 18.6567 17.489 19.1067Z" fill="#4CAF4F"/>
+<path d="M9.19898 16.9567L7.05898 14.2367C6.70898 13.7867 5.91898 13.6967 5.46898 14.0467L3.57898 15.5667C3.12898 15.9167 3.03898 16.5667 3.38898 17.0167L5.52898 19.7367C5.87898 20.1867 6.66898 20.2767 7.11898 19.9267L9.00898 18.4067C9.45898 18.0567 9.54898 17.4067 9.19898 16.9567Z" fill="#4CAF4F"/>
+<path d="M9.33648 9.36L11.2465 7.54C11.6665 7.14 12.3665 7.14 12.7865 7.54L14.3965 9.06C14.8165 9.46 14.8165 10.16 14.3965 10.58L12.4865 12.4C12.0665 12.8 11.3665 12.8 10.9465 12.4L9.33648 10.98C8.91648 10.58 8.91648 9.76 9.33648 9.36Z" fill="#4CAF4F"/>
 </svg>
