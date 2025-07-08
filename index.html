@@ -4,206 +4,74 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ImageSolutions - Online Image Tools</title>
-  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <!-- MODIFICATION: Updated to SVG favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Using Font Awesome for the new feature cards -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* --- CSS Variables and Base Styles --- */
     :root {
-      --primary-color: #4CAF4F; /* Green from the design */
-      --secondary-color: #263238; /* Dark Grey for text */
-      --text-color: #717171; /* Lighter grey for body text */
+      --primary-color: #4CAF4F;
+      --secondary-color: #263238;
+      --text-color: #717171;
       --light-bg: #F5F7FA;
       --white: #FFFFFF;
     }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    html {
-      scroll-behavior: smooth;
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      color: var(--text-color);
-      background-color: var(--white);
-    }
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-    h1, h2, h3 {
-      color: var(--secondary-color);
-    }
-    h1 {
-      font-size: 3.5rem;
-      font-weight: 600;
-      line-height: 1.2;
-    }
-    h2 {
-      font-size: 2.25rem;
-      font-weight: 600;
-      line-height: 1.3;
-    }
-    p {
-      line-height: 1.6;
-    }
-    .btn {
-      display: inline-block;
-      padding: 0.9rem 2rem;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-    .btn-primary {
-      background-color: var(--primary-color);
-      color: var(--white);
-    }
-    .btn-primary:hover {
-      background-color: #45a049;
-    }
-
-    /* --- Header --- */
-    .header {
-      background-color: var(--light-bg);
-      padding: 1rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    .header .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text-color); background-color: var(--white); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    h1, h2, h3 { color: var(--secondary-color); }
+    h1 { font-size: 3.5rem; font-weight: 600; line-height: 1.2; }
+    h2 { font-size: 2.25rem; font-weight: 600; line-height: 1.3; }
+    p { line-height: 1.6; }
+    .btn { display: inline-block; padding: 0.9rem 2rem; border-radius: 4px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; }
+    .btn-primary { background-color: var(--primary-color); color: var(--white); }
+    .btn-primary:hover { background-color: #45a049; }
+    .header { background-color: var(--light-bg); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .header .container { display: flex; justify-content: space-between; align-items: center; }
     .logo { display: flex; align-items: center; text-decoration: none; }
-    /* --- MODIFICATION: Enlarged logo --- */
     .logo img { height: 40px; }
     .main-nav ul { list-style: none; display: flex; gap: 2.5rem; }
     .main-nav a { text-decoration: none; color: var(--secondary-color); font-weight: 500; }
     .auth-buttons { display: flex; align-items: center; gap: 1rem; }
     .auth-buttons .login { color: var(--primary-color); font-weight: 500; text-decoration: none; padding: 0.5rem 1rem;}
-
-    /* --- Hero Section --- */
-    .hero {
-      background-color: var(--light-bg);
-      padding: 4rem 0;
-    }
-    .hero .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-    }
-    /* --- MODIFICATION: Adjusted flex-basis for hero elements --- */
+    .hero { background-color: var(--light-bg); padding: 4rem 0; }
+    .hero .container { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
     .hero-text { flex-basis: 45%; }
     .hero-text span { color: var(--primary-color); }
     .hero-text p { margin: 1.5rem 0; }
     .hero-image { flex-basis: 50%; }
     .hero-image img { width: 100%; }
-
-    /* --- Our Tools Section --- */
     .our-tools { text-align: center; padding: 4rem 0; }
     .our-tools h2 { margin-bottom: 1rem; }
     .our-tools p { margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
-    .tool-cards {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-    .tool-card {
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      border-radius: 8px;
-      flex: 1;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+    .tool-cards { display: flex; justify-content: space-between; align-items: center; gap: 2rem; margin-top: 3rem; }
+    .tool-card { padding: 2rem; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 8px; flex: 1; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; }
     .tool-card:hover { transform: translateY(-10px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
     .tool-card img { height: 48px; margin-bottom: 1rem; }
     .tool-card h3 { margin-bottom: 0.5rem; font-size: 1.75rem; }
-
-    /* --- MODIFICATION: NEW Features Section with Cards --- */
-    .features-section {
-      padding: 4rem 0;
-      background-color: var(--light-bg);
-    }
-    .features-header {
-      text-align: center;
-      max-width: 650px;
-      margin: 0 auto 3rem auto;
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-    .feature-card {
-      background-color: var(--white);
-      padding: 2rem;
-      text-align: center;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(113,113,113,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .feature-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(113,113,113,0.1);
-    }
-    .feature-card i {
-      font-size: 3rem;
-      color: var(--primary-color);
-      margin-bottom: 1.5rem;
-    }
-    .feature-card h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-    }
-
-    /* --- CTA Section --- */
-    .cta-section {
-      background-color: var(--white);
-      padding: 4rem 0;
-      text-align: center;
-    }
+    .features-section { padding: 4rem 0; background-color: var(--light-bg); }
+    .features-header { text-align: center; max-width: 650px; margin: 0 auto 3rem auto; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+    .feature-card { background-color: var(--white); padding: 2rem; text-align: center; border-radius: 8px; box-shadow: 0 2px 4px rgba(113,113,113,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .feature-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(113,113,113,0.1); }
+    .feature-card i { font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem; }
+    .feature-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+    .cta-section { background-color: var(--white); padding: 4rem 0; text-align: center; }
     .cta-section h2 { font-size: 3rem; margin-bottom: 1.5rem; }
     .cta-section h2 span { display: block; }
-
-    /* --- Footer --- */
     .site-footer { background-color: #263238; color: #F5F7FA; padding: 4rem 0 2rem; }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      padding-bottom: 3rem;
-      border-bottom: 1px solid #455A64;
-    }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; padding-bottom: 3rem; border-bottom: 1px solid #455A64; }
     .footer-col h4 { font-size: 1.25rem; color: var(--white); margin-bottom: 1rem; }
     .footer-col p { color: #D9DBE1; }
     .footer-col ul { list-style: none; }
     .footer-col li { margin-bottom: 0.75rem; }
     .footer-col a { text-decoration: none; color: #D9DBE1; transition: color 0.3s ease; }
     .footer-col a:hover { color: var(--primary-color); }
-    .footer-bottom {
-      text-align: center;
-      padding-top: 2rem;
-      font-size: 0.9rem;
-      color: #D9DBE1;
-    }
-
-    /* --- Responsive --- */
+    .footer-bottom { text-align: center; padding-top: 2rem; font-size: 0.9rem; color: #D9DBE1; }
     @media (max-width: 992px) {
-      h1 { font-size: 2.8rem; }
-      h2 { font-size: 1.8rem; }
-      .main-nav { display: none; } /* Simplified for this example, a hamburger menu would be added here */
+      h1 { font-size: 2.8rem; } h2 { font-size: 1.8rem; }
+      .main-nav { display: none; }
       .hero .container { flex-direction: column; text-align: center; }
       .hero-text, .hero-image { max-width: 100%; flex-basis: auto; }
       .hero-image { margin-top: 2rem; max-width: 80%; }
@@ -215,7 +83,6 @@
 
   <header class="header">
     <div class="container">
-      <!-- --- MODIFICATION: Removed text span, logo is now just the image --- -->
       <a href="index.html" class="logo">
         <img src="assets/images/logo.svg" alt="ImageSolutions Logo">
       </a>
@@ -276,7 +143,6 @@
       </div>
     </section>
 
-    <!-- --- MODIFICATION: Replaced old feature sections with this new card-based section --- -->
     <section class="features-section" id="features">
         <div class="container">
             <div class="features-header">
@@ -320,11 +186,11 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col">
-          <!-- --- MODIFICATION: Removed text, logo is now just the image --- -->
           <a href="index.html" class="logo">
             <img src="assets/images/logo.svg" alt="ImageSolutions Logo">
           </a>
-          <p style="margin-top: 1rem;">© 2025 ImageSolutions. All rights reserved.</p>
+          <!-- MODIFICATION: "About Me" text added under logo -->
+          <p style="margin-top: 1rem;">A suite of powerful, private, and free online image tools designed for everyone.</p>
         </div>
         <div class="footer-col">
           <h4>Company</h4>
@@ -349,8 +215,10 @@
           <p>Get tips and updates (placeholder).</p>
         </div>
       </div>
+      <!-- MODIFICATION: Copyright and Credit line moved to the very bottom -->
       <div class="footer-bottom">
-        <p>Built with care for creators and professionals everywhere.</p>
+        <p>© 2025 ImageSolutions. All rights reserved.</p>
+        <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 0.5rem;">Landing Page Redesign by an AI Assistant</p>
       </div>
     </div>
   </footer>
