@@ -2,11 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Convert Image</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    input, select, button {
+      margin: 0.5rem;
+    }
+    img {
+      max-width: 100%;
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
   <h2>Convert Your Image</h2>
-  <input type="file" id="upload" accept="image/*"><br>
+  <input type="file" id="upload" accept="image/*">
+  <br>
   <select id="format">
     <option value="image/jpeg">Convert to JPG</option>
     <option value="image/png">Convert to PNG</option>
@@ -14,8 +30,10 @@
   </select>
   <button onclick="convertImage()">Convert</button>
   <div id="output"></div>
+
   <script>
     let originalImg;
+
     document.getElementById('upload').addEventListener('change', function (e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -24,11 +42,12 @@
         originalImg = new Image();
         originalImg.src = event.target.result;
         originalImg.onload = () => {
-          document.getElementById('output').innerHTML = '<img src="' + event.target.result + '" alt="Original">';
+          document.getElementById('output').innerHTML = '<img src=\"' + event.target.result + '\" alt=\"Original\">';
         };
       };
       reader.readAsDataURL(file);
     });
+
     function convertImage() {
       if (!originalImg) return alert('Please upload an image first');
       const format = document.getElementById('format').value;
@@ -40,8 +59,8 @@
       const converted = canvas.toDataURL(format);
       const ext = format.split('/')[1];
       document.getElementById('output').innerHTML = `
-        <img src="${converted}" alt="Converted Image">
-        <a href="${converted}" download="converted-image.${ext}">Download Converted Image</a>
+        <img src=\"${converted}\" alt=\"Converted Image\">
+        <a href=\"${converted}\" download=\"converted-image.${ext}\">Download Converted Image</a>
       `;
     }
   </script>
