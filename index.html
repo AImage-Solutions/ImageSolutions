@@ -5,377 +5,340 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ImageSolutions - Online Image Tools</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* --- Base & Reset Styles (Unchanged) --- */
+    /* --- CSS Variables and Base Styles --- */
+    :root {
+      --primary-color: #4CAF4F; /* Green from the design */
+      --secondary-color: #263238; /* Dark Grey for text */
+      --text-color: #717171; /* Lighter grey for body text */
+      --light-bg: #F5F7FA;
+      --white: #FFFFFF;
+    }
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Inter', sans-serif;
-    }
-    body {
-      background: #f5f6fa;
-      color: #333;
-      line-height: 1.6;
     }
     html {
       scroll-behavior: smooth;
-      /* --- MODIFICATION 2: Add top padding to account for the sticky header --- */
-      /* This ensures that when you jump to an anchor link, the section title isn't hidden behind the header. */
-      scroll-padding-top: 5rem; 
     }
-    /* --- Header & Navigation (Updated) --- */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-color);
+      background-color: var(--white);
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    h1, h2, h3 {
+      color: var(--secondary-color);
+    }
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    h2 {
+      font-size: 2.25rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    p {
+      line-height: 1.6;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.9rem 2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background-color: #45a049;
+    }
+
+    /* --- Header --- */
+    .header {
+      background-color: var(--light-bg);
+      padding: 1rem 0;
       position: sticky;
       top: 0;
-      z-index: 100;
-      height: 5rem; /* Explicit height helps with scroll-padding */
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
-    .logo {
-      display: flex;
-      align-items: center;
-      font-weight: 700;
-      color: #2f3542;
-    }
-    .logo img {
-      height: 32px; /* Set an explicit height for the logo */
-      width: auto;
-    }
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 1.5rem;
-    }
-    nav ul li a {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      transition: color 0.2s ease-in-out;
-    }
-    nav ul li a:hover {
-      color: #007BFF;
-    }
-    .auth-buttons {
-      display: flex;
-      gap: 1rem;
-    }
-    .auth-buttons a {
-      padding: 0.5rem 1rem;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: 600;
-      transition: all 0.2s ease-in-out;
-    }
-    .login {
-      background: none;
-      color: #007BFF;
-      border: 1px solid #007BFF;
-    }
-    .login:hover {
-      background: #e8f3ff;
-    }
-    .signup {
-      background: #007BFF;
-      color: #fff;
-      border: 1px solid #007BFF;
-    }
-    .signup:hover {
-      background: #0056b3;
-      border-color: #0056b3;
-    }
-    /* --- Hero Section (Unchanged) --- */
-    .hero {
-      text-align: center;
-      padding: 5rem 2rem;
-      background: linear-gradient(145deg, #e8efff, #ffffff);
-    }
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: #2f3542;
-    }
-    .hero p {
-      font-size: 1.25rem;
-      margin-bottom: 2rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .hero button {
-      padding: 1rem 2rem;
-      font-size: 1rem;
-      background: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .hero button:hover {
-      background: #0056b3;
-    }
-    /* --- Categories Section (Updated for full-page navigation) --- */
-    .categories {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: 4rem 1rem;
-      background: #fff;
-      flex-wrap: wrap;
-    }
-    .category {
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      padding: 2rem;
-      border-radius: 10px;
-      background: #f8f9fa;
-      width: 200px;
-    }
-    .category:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    .category i {
-      font-size: 2.5rem;
-      color: #007BFF;
-      margin-bottom: 1rem;
-    }
-    .category p {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-    /* --- Features Section (ENHANCED) --- */
-    .features {
-      padding: 5rem 2rem;
-      background: #f0f2f5;
-    }
-    .features-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        text-align: center;
-    }
-    .features-container h2 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        color: #2f3542;
-    }
-    .features-container > p {
-        font-size: 1.1rem;
-        margin-bottom: 3rem;
-        color: #555;
-    }
-    .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 2rem;
-        text-align: left;
-    }
-    .feature-card {
-        background: #fff;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .feature-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    }
-    .feature-card i {
-        font-size: 2.2rem;
-        color: #007BFF;
-        margin-bottom: 1rem;
-    }
-    .feature-card h3 {
-        font-size: 1.25rem;
-        margin-bottom: 0.5rem;
-    }
-    /* --- FAQ Section (ENHANCED) --- */
-    .faq {
-      padding: 5rem 2rem;
-      background: #fff;
-    }
-    .faq-container {
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    .faq-container h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 3rem;
-      color: #2f3542;
-    }
-    .faq-item {
-        background: #f8f9fa;
-        margin-bottom: 1rem;
-        border-radius: 8px;
-        border: 1px solid #e9ecef;
-    }
-    .faq-item summary {
-        font-size: 1.1rem;
-        font-weight: 600;
-        padding: 1.5rem;
-        cursor: pointer;
-        outline: none;
-        position: relative;
-        list-style: none; /* Hide default marker */
-    }
-    .faq-item summary::-webkit-details-marker {
-        display: none; /* Hide default marker for Chrome/Safari */
-    }
-    .faq-item summary::after {
-        content: '+';
-        position: absolute;
-        right: 1.5rem;
-        font-size: 1.5rem;
-        font-weight: 400;
-        transition: transform 0.3s ease;
-    }
-    .faq-item[open] summary::after {
-        transform: rotate(45deg);
-    }
-    .faq-item div {
-        padding: 0 1.5rem 1.5rem 1.5rem;
-        border-top: 1px solid #e9ecef;
-    }
-    /* --- Footer (Updated) --- */
-    footer {
-      background: #2f3542;
-      color: #fff;
+    .header .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+    .logo { display: flex; align-items: center; text-decoration: none; }
+    .logo img { height: 28px; margin-right: 0.5rem; }
+    .logo span { font-size: 1.8rem; font-weight: 700; color: var(--secondary-color); }
+    .main-nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    .main-nav a { text-decoration: none; color: var(--secondary-color); font-weight: 500; }
+    .auth-buttons { display: flex; align-items: center; gap: 1rem; }
+    .auth-buttons .login { color: var(--primary-color); font-weight: 500; text-decoration: none; padding: 0.5rem 1rem;}
+
+    /* --- Hero Section --- */
+    .hero {
+      background-color: var(--light-bg);
+      padding: 4rem 0;
+    }
+    .hero .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .hero-text { max-width: 50%; }
+    .hero-text span { color: var(--primary-color); }
+    .hero-text p { margin: 1.5rem 0; }
+    .hero-image { max-width: 45%; }
+    .hero-image img { width: 100%; }
+
+    /* --- Our Tools Section (Replaces "Our Clients") --- */
+    .our-tools { text-align: center; padding: 4rem 0; }
+    .our-tools h2 { margin-bottom: 1rem; }
+    .our-tools p { margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .tool-cards {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .tool-card {
       padding: 2rem;
-      flex-wrap: wrap;
-      gap: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-radius: 8px;
+      flex: 1;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    footer .left {
-      font-size: 0.9rem;
+    .tool-card:hover { transform: translateY(-10px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+    .tool-card img { height: 48px; margin-bottom: 1rem; }
+    .tool-card h3 { margin-bottom: 0.5rem; font-size: 1.75rem; }
+
+    /* --- Feature Sections --- */
+    .feature-section { padding: 4rem 0; }
+    .feature-section .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5rem;
     }
-    footer .right a {
-      color: #fff;
-      margin-left: 1.5rem;
+    .feature-section.reverse .container { flex-direction: row-reverse; }
+    .feature-image { flex-basis: 45%; }
+    .feature-image img { width: 100%; max-width: 400px; }
+    .feature-text { flex-basis: 55%; }
+    .feature-text h2 { margin-bottom: 1rem; line-height: 1.4; }
+    .feature-text p { margin-bottom: 2rem; }
+
+    /* --- CTA Section --- */
+    .cta-section {
+      background-color: var(--light-bg);
+      padding: 4rem 0;
+      text-align: center;
+    }
+    .cta-section h2 { font-size: 3rem; margin-bottom: 1.5rem; }
+    .cta-section h2 span { display: block; }
+
+    /* --- Footer --- */
+    .site-footer { background-color: #263238; color: #F5F7FA; padding: 4rem 0 2rem; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid #455A64;
+    }
+    .footer-col h4 { font-size: 1.25rem; color: var(--white); margin-bottom: 1rem; }
+    .footer-col p { color: #D9DBE1; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.75rem; }
+    .footer-col a { text-decoration: none; color: #D9DBE1; transition: color 0.3s ease; }
+    .footer-col a:hover { color: var(--primary-color); }
+    .footer-socials { display: flex; gap: 1rem; margin-top: 1rem; }
+    .footer-socials a {
+      background-color: #455A64;
+      color: var(--white);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
       text-decoration: none;
-      transition: color 0.2s ease-in-out;
     }
-    footer .right a:hover {
-        color: #007BFF;
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2rem;
+      font-size: 0.9rem;
+      color: #D9DBE1;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 992px) {
+      h1 { font-size: 2.8rem; }
+      h2 { font-size: 1.8rem; }
+      .main-nav { display: none; } /* Simplified for this example, a hamburger menu would be added here */
+      .hero .container { flex-direction: column; text-align: center; }
+      .hero-text, .hero-image { max-width: 100%; }
+      .hero-image { margin-top: 2rem; }
+      .tool-cards { flex-direction: column; }
+      .feature-section .container, .feature-section.reverse .container {
+        flex-direction: column; text-align: center; gap: 2rem;
+      }
+      .feature-image { order: -1; margin-bottom: 2rem; }
     }
   </style>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Font Awesome for social icons -->
 </head>
 <body>
-  <header>
-    <!-- --- MODIFICATION 1: Removed the redundant "ImageSolutions" text next to the logo --- -->
-    <a href="index.html" class="logo">
-      <img src="assets/images/logo.svg" alt="ImageSolutions Logo">
-    </a>
-    <nav>
-      <ul>
-        <li><a href="about.html">About</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#faq">FAQs</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-    <div class="auth-buttons">
-      <a href="#" class="login">Log In</a>
-      <a href="#" class="signup">Sign Up</a>
+
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="assets/images/logo.svg" alt="ImageSolutions Logo">
+        <span>ImageSolutions</span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <a href="#" class="login">Login</a>
+        <a href="#" class="btn btn-primary">Sign Up Free</a>
+      </div>
     </div>
   </header>
 
-  <section class="hero" id="home">
-    <h1>Compress, Resize, Convert, and Crop Your Images Instantly</h1>
-    <p>All-in-one powerful and easy-to-use online image tools. Fast, private, and free.</p>
-    <button onclick="document.getElementById('tools').scrollIntoView();">Explore Tools</button>
-  </section>
-
-  <section class="categories" id="tools">
-    <div class="category" onclick="window.location.href='tools/compress.html'">
-      <i class="fas fa-compress-alt"></i>
-      <p>Compress Image</p>
-    </div>
-    <div class="category" onclick="window.location.href='tools/resize.html'">
-      <i class="fas fa-expand-arrows-alt"></i>
-      <p>Resize Image</p>
-    </div>
-    <div class="category" onclick="window.location.href='tools/convert.html'">
-      <i class="fas fa-sync-alt"></i>
-      <p>Convert Image</p>
-    </div>
-    <div class="category" onclick="window.location.href='tools/crop.html'">
-      <i class="fas fa-crop-alt"></i>
-      <p>Crop Image</p>
-    </div>
-  </section>
-
-  <section class="features" id="features">
-    <div class="features-container">
-        <h2>Why Choose ImageSolutions?</h2>
-        <p>We built our tools with three core principles in mind: quality, speed, and privacy.</p>
-        <div class="features-grid">
-            <div class="feature-card">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Absolute Privacy</h3>
-                <p>Your images are your own. All processing is done in your browser, meaning your files never leave your computer. We don't upload, store, or share your images.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-bolt"></i>
-                <h3>Blazing Fast Speed</h3>
-                <p>Using modern web technologies, our tools perform instantly. No waiting for uploads or downloads from a server. Get your results in seconds, not minutes.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-thumbs-up"></i>
-                <h3>Simple & Powerful</h3>
-                <p>We've designed a clean, intuitive interface that's easy for anyone to use, while still providing powerful options for professional-quality results.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-check-circle"></i>
-                <h3>High-Quality Output</h3>
-                <p>Our algorithms are optimized to give you the best possible output, whether you're compressing for the web or converting formats for a project.</p>
-            </div>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-text">
+          <h1>Powerful, Fast, and <span>Private</span> Image Tools</h1>
+          <p>Compress, resize, crop, and convert your images instantly right in your browser. No uploads, no waiting.</p>
+          <a href="#tools" class="btn btn-primary">Get Started</a>
         </div>
-    </div>
-  </section>
+        <div class="hero-image">
+          <img src="assets/illustrations/hero-illustration.svg" alt="Illustration of image editing tools">
+        </div>
+      </div>
+    </section>
 
-  <section class="faq" id="faq">
-    <div class="faq-container">
-      <h2>Frequently Asked Questions</h2>
-      <details class="faq-item">
-        <summary>Are these tools really free to use?</summary>
-        <div><p>Yes, absolutely! All tools on ImageSolutions are completely free to use without any limitations on the number of images you can process. We believe everyone should have access to high-quality image utilities.</p></div>
-      </details>
-      <details class="faq-item">
-        <summary>How is my privacy and data protected?</summary>
-        <div><p>Your privacy is our top priority. Our tools work entirely within your web browser. This means your images are never uploaded to our servers or any third-party service. They remain on your device at all times.</p></div>
-      </details>
-      <details class="faq-item">
-        <summary>What image file types are supported?</summary>
-        <div><p>We support all the most common image formats, including JPG/JPEG, PNG, GIF, WebP, and BMP. Our converter tool can help you switch between formats like JPG, PNG, and WebP with ease.</p></div>
-      </details>
-      <details class="faq-item">
-        <summary>Do I need to install any software?</summary>
-        <div><p>No software installation is required. ImageSolutions is a fully web-based application. As long as you have a modern web browser (like Chrome, Firefox, Safari, or Edge), you can use all of our tools instantly.</p></div>
-      </details>
-    </div>
-  </section>
+    <section class="our-tools" id="tools">
+      <div class="container">
+        <h2>All The Tools You Need</h2>
+        <p>A complete suite of professional-grade image utilities, ready when you are. Click any tool to begin.</p>
+        <div class="tool-cards">
+          <div class="tool-card" onclick="window.location.href='tools/compress.html'">
+            <img src="https://api.iconify.design/material-symbols/compress.svg?color=%234caf4f" alt="Compress Icon">
+            <h3>Compress</h3>
+            <p>Drastically reduce file size.</p>
+          </div>
+          <div class="tool-card" onclick="window.location.href='tools/resize.html'">
+            <img src="https://api.iconify.design/material-symbols/aspect-ratio-outline.svg?color=%234caf4f" alt="Resize Icon">
+            <h3>Resize</h3>
+            <p>Change image dimensions.</p>
+          </div>
+          <div class="tool-card" onclick="window.location.href='tools/crop.html'">
+            <img src="https://api.iconify.design/material-symbols/crop.svg?color=%234caf4f" alt="Crop Icon">
+            <h3>Crop</h3>
+            <p>Cut to the perfect frame.</p>
+          </div>
+          <div class="tool-card" onclick="window.location.href='tools/convert.html'">
+            <img src="https://api.iconify.design/material-symbols/autorenew.svg?color=%234caf4f" alt="Convert Icon">
+            <h3>Convert</h3>
+            <p>Switch between formats.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <footer>
-    <div class="left">
-      <p>© 2025 ImageSolutions. All rights reserved.</p>
-    </div>
-    <div class="right">
-      <a href="privacy-policy.html">Privacy Policy</a>
-      <a href="terms-of-use.html">Terms of Service</a>
-      <a href="contact.html">Contact</a>
+    <section class="feature-section" id="features">
+      <div class="container">
+        <div class="feature-image">
+          <img src="assets/illustrations/feature-1.svg" alt="Illustration of a secure lock">
+        </div>
+        <div class="feature-text">
+          <h2>Your Privacy is Our Priority. No Questions Asked.</h2>
+          <p>We believe your files are your business. ImageSolutions processes everything directly in your browser. This means your images are never uploaded, stored, or seen by anyone else. It's the most secure way to handle your images online.</p>
+          <a href="privacy-policy.html" class="btn btn-primary">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-section reverse">
+      <div class="container">
+        <div class="feature-image">
+          <img src="assets/illustrations/feature-2.svg" alt="Illustration showing speed and efficiency">
+        </div>
+        <div class="feature-text">
+          <h2>Blazing Fast Performance Without Compromise</h2>
+          <p>Tired of waiting for files to upload and process on a slow server? Our tools leverage the power of your own computer to deliver instant results. Get your work done in seconds, not minutes, and maintain the highest quality possible.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <h2><span>Ready to Enhance Your Images?</span>Let's Get Started</h2>
+        <a href="#tools" class="btn btn-primary">Choose a Tool</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="ImageSolutions Logo">
+            <span style="color: white;">ImageSolutions</span>
+          </a>
+          <p style="margin-top: 1rem;">© 2025 ImageSolutions. All rights reserved.</p>
+          <!-- Socials can be added here if needed -->
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms-of-use.html">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="tools/compress.html">Compress Image</a></li>
+            <li><a href="tools/resize.html">Resize Image</a></li>
+            <li><a href="tools/crop.html">Crop Image</a></li>
+            <li><a href="tools/convert.html">Convert Image</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Stay up to date</h4>
+          <p>Get tips and updates (placeholder).</p>
+          <!-- Placeholder for a newsletter form -->
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Built with care for creators and professionals everywhere.</p>
+      </div>
     </div>
   </footer>
 
