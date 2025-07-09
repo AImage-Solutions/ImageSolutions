@@ -1,38 +1,430 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Resize Image</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Resizer - ImageSolutions</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/images/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://releases.transloadit.com/uppy/v3.21.0/uppy.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF4F;
+            --secondary-color: #263238;
+            --text-color: #717171;
+            --light-bg: #F5F7FA;
+            --white: #FFFFFF;
+            --border-color: #EAECEE;
+            --error-color: #f44336;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+        h1, h2, h3 { color: var(--secondary-color); }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; border-radius: 4px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; cursor: pointer; border: none; }
+        .btn-primary { background-color: var(--primary-color); color: var(--white); }
+        .btn-primary:hover { background-color: #45a049; }
+        .btn:disabled { background-color: #a5d6a7; color: var(--white); cursor: not-allowed; }
+        .hidden { display: none !important; }
+        .header { background-color: var(--white); padding: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo img { height: 40px; }
+        .main-nav ul { list-style: none; display: flex; gap: 2.5rem; }
+        .main-nav a { text-decoration: none; color: var(--secondary-color); font-weight: 500; }
+        .auth-buttons { display: flex; align-items: center; gap: 1rem; }
+        .auth-buttons .login { color: var(--primary-color); font-weight: 500; text-decoration: none; padding: 0.5rem 1rem;}
+        main { flex-grow: 1; padding: 3rem 0; display: flex; justify-content: center; align-items: flex-start; }
+        .tool-container { width: 100%; max-width: 900px; background: var(--white); border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; }
+        .tool-header { padding: 1.5rem 2rem; }
+        .tool-header h1 { font-size: 1.75rem; color: var(--secondary-color); }
+        .tool-content { padding: 0 2rem 2rem 2rem; }
+        #upload-box { text-align: center; padding: 3rem 1rem; margin-top: 2rem; border: 2px dashed var(--border-color); border-radius: 8px; transition: all 0.3s ease; }
+        #upload-box:hover { border-color: var(--primary-color); }
+        #upload-box h2 { color: var(--secondary-color); margin-bottom: 0.5rem; }
+        #upload-box p { color: var(--text-color); margin-bottom: 1.5rem; max-width: 450px; margin-left: auto; margin-right: auto;}
+        #upload-btn { padding: 1rem 2.5rem; font-size: 1.1rem; }
+        .file-list-header { display: flex; justify-content: space-between; align-items: center; margin: 1.5rem 0 1rem 0; padding: 0 0.5rem; }
+        .file-list-header h3 { color: var(--secondary-color); font-size: 1.25rem;}
+        #clear-all-btn { color: var(--primary-color); background: none; border: none; cursor: pointer; font-weight: 600; padding: 0.5rem; font-size: 0.9rem; }
+        #file-list { max-height: 350px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; }
+        .file-item { display: flex; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border-color); gap: 1rem; }
+        .file-item:last-child { border-bottom: none; }
+        .file-item-thumbnail { width: 48px; height: 48px; border-radius: 4px; object-fit: cover; flex-shrink: 0; background-color: #f0f0f0; }
+        .file-item-details { flex-grow: 1; min-width: 0; }
+        .file-item-details .name { font-weight: 600; color: var(--secondary-color); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 1rem; }
+        .file-item-details .size { font-size: 0.85rem; color: var(--text-color); }
+        .file-item-actions { display: flex; align-items: center; gap: 0.75rem; margin-left: auto;}
+        .file-item-remove-btn { background: none; border: none; color: var(--error-color); cursor: pointer; font-size: 1.2rem; padding: 0.5rem; }
+        .btn-icon { background: var(--light-bg); border: 1px solid var(--border-color); color: var(--secondary-color); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 4px; text-decoration: none; transition: background-color 0.2s; cursor: pointer; }
+        .btn-icon:hover { background-color: #e9ecef;}
+        .options-area { background-color: var(--light-bg); padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; }
+        .options-main-grid { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: flex-end; }
+        .resize-controls { display: flex; align-items: flex-end; gap: 1rem; }
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .input-group label { font-weight: 600; color: var(--secondary-color); font-size: 0.9rem; }
+        .input-group input, .input-group select { padding: 0.75rem; border-radius: 4px; border: 1px solid var(--border-color); background-color: var(--white); font-family: 'Inter', sans-serif; }
+        .input-group input[type="number"] { width: 100px; -moz-appearance: textfield; }
+        .input-group input[type="number"]::-webkit-outer-spin-button, .input-group input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        #aspect-ratio-lock { font-size: 1rem; padding: 0.75rem; border-radius: 4px; border: 1px solid var(--border-color); background: var(--white); cursor: pointer; }
+        #aspect-ratio-lock.locked { background-color: var(--primary-color); color: var(--white); border-color: var(--primary-color); }
+        .final-actions-area { text-align: left; margin-top: 1.5rem; }
+        .btn-secondary { background-color: var(--light-bg); color: var(--secondary-color); border: 1px solid var(--border-color); padding: 0.9rem 2rem; }
+        .btn-secondary:hover { background-color: #e9ecef; }
+        .site-footer { background-color: #263238; color: #F5F7FA; padding: 4rem 0 2rem; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; padding-bottom: 3rem; border-bottom: 1px solid #455A64; }
+        .footer-col h4 { font-size: 1.25rem; color: var(--white); margin-bottom: 1rem; }
+        .footer-col p { color: #D9DBE1; line-height: 1.6; }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col li { margin-bottom: 0.75rem; }
+        .footer-col a { text-decoration: none; color: #D9DBE1; transition: color 0.3s ease; }
+        .footer-col a:hover { color: var(--primary-color); }
+        .footer-bottom { text-align: center; padding-top: 2rem; font-size: 0.9rem; color: #D9DBE1; }
+        #explore-tools { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color); }
+        #explore-tools h3 { margin-bottom: 2rem; font-size: 1.5rem; }
+        .explore-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; }
+        .explore-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; padding: 1.5rem 1rem; text-decoration: none; color: var(--secondary-color); background: var(--light-bg); border-radius: 8px; border: 1px solid var(--border-color); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .explore-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(113,113,113,0.1); border-color: var(--primary-color); }
+        .explore-card img { height: 32px; }
+        .explore-card span { font-weight: 600; }
+    </style>
 </head>
 <body>
-  <h2>Resize Your Image</h2>
-  <input type="file" id="upload" accept="image/*"><br>
-  <input type="number" id="width" placeholder="Width"> 
-  <input type="number" id="height" placeholder="Height">
-  <button onclick="resize()">Resize</button>
-  <div id="result"></div>
-  <script>
-    let img;
-    document.getElementById('upload').addEventListener('change', (e) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        img = new Image();
-        img.onload = () => {
-          document.getElementById('result').innerHTML = `<img src="${img.src}" style="max-width:100%;">`;
+
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo"><img src="../assets/images/logo.svg" alt="ImageSolutions Logo"></a>
+            <nav class="main-nav"><ul><li><a href="../about.html">About</a></li><li><a href="../index.html#features">Features</a></li><li><a href="../contact.html">Contact</a></li></ul></nav>
+            <div class="auth-buttons"><a href="#" class="login">Login</a><a href="#" class="btn btn-primary">Sign Up Free</a></div>
+        </div>
+    </header>
+
+    <main>
+        <div class="tool-container">
+            <div class="tool-header"><h1>Image Resizer</h1></div>
+            <div class="tool-content">
+                <div id="upload-box">
+                    <h2>Upload Your Images</h2>
+                    <p>Resize images by pixel, percentage, or using presets for social media and more.</p>
+                    <button id="upload-btn" class="btn btn-primary"><i class="fas fa-upload"></i> Choose Files</button>
+                </div>
+                <div id="processing-container" class="hidden">
+                    <div class="file-list-header">
+                        <h3 id="file-count"></h3>
+                        <button id="clear-all-btn" title="Remove all files">Clear All</button>
+                    </div>
+                    <div id="file-list"></div>
+                    <div id="options-area" class="options-area">
+                        <div class="options-main-grid">
+                            <div class="resize-controls">
+                                <div class="input-group">
+                                    <label for="width-input">Width</label>
+                                    <input type="number" id="width-input" placeholder="e.g., 1080">
+                                </div>
+                                <button id="aspect-ratio-lock" class="locked" title="Lock Aspect Ratio"><i class="fas fa-link"></i></button>
+                                <div class="input-group">
+                                    <label for="height-input">Height</label>
+                                    <input type="number" id="height-input" placeholder="e.g., 1080">
+                                </div>
+                                <div class="input-group">
+                                    <label for="unit-select">Unit</label>
+                                    <select id="unit-select">
+                                        <option value="pixels">Pixels</option>
+                                        <option value="percent">Percent</option>
+                                        <option value="inches">Inches</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="input-group">
+                                <label for="preset-select">Or use a preset</label>
+                                <select id="preset-select">
+                                    <option value="">Choose a preset...</option>
+                                    <option value="1080x1080">Instagram Post (1080x1080)</option>
+                                    <option value="1080x1920">Instagram Story (1080x1920)</option>
+                                    <option value="1200x628">Facebook Post (1200x628)</option>
+                                    <option value="820x312">Facebook Cover (820x312)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="final-actions-area" class="final-actions-area">
+                        <button id="resize-btn" class="btn btn-primary"><i class="fas fa-ruler-combined"></i> Resize</button>
+                        <button id="start-over-btn" class="btn btn-secondary hidden"><i class="fas fa-redo"></i> Start Over</button>
+                    </div>
+                    <div id="explore-tools" class="hidden">
+                        <h3>Try Our Other Tools</h3>
+                        <div class="explore-grid">
+                            <a href="convert.html" class="explore-card"><img src="https://api.iconify.design/material-symbols/autorenew.svg?color=%234caf4f" alt="Convert Icon"><span>Convert</span></a>
+                            <a href="compress.html" class="explore-card"><img src="https://api.iconify.design/material-symbols/compress.svg?color=%234caf4f" alt="Compress Icon"><span>Compress</span></a>
+                            <a href="crop.html" class="explore-card"><img src="https://api.iconify.design/material-symbols/crop.svg?color=%234caf4f" alt="Crop Icon"><span>Crop</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><a href="../index.html" class="logo"><img src="../assets/images/logo-footer.svg" alt="ImageSolutions Logo"></a><p style="margin-top: 1rem;">A suite of powerful, private, and free online image tools.</p></div>
+                <div class="footer-col"><h4>Tools</h4><ul><li><a href="compress.html">Compress Image</a></li><li><a href="resize.html">Resize Image</a></li><li><a href="crop.html">Crop Image</a></li><li><a href="convert.html">Convert Image</a></li></ul></div>
+                <div class="footer-col"><h4>Company</h4><ul><li><a href="../about.html">About Us</a></li><li><a href="../contact.html">Contact Us</a></li><li><a href="../privacy-policy.html">Privacy Policy</a></li></ul></div>
+                <div class="footer-col"><h4>Stay up to date</h4><p>Get tips and updates (placeholder).</p></div>
+            </div>
+            <div class="footer-bottom"><p>© 2025 ImageSolutions. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+<!-- Library Scripts -->
+<script src="https://releases.transloadit.com/uppy/v3.21.0/uppy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<!-- Main Tool Logic -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const { Uppy, Dashboard, GoogleDrive, Dropbox, Url } = window.Uppy;
+        const COMPANION_URL = 'https://companion.uppy.io';
+        const DPI = 96; // Standard screen DPI for inches conversion
+
+        const elements = {
+            uploadBox: document.getElementById('upload-box'),
+            processingContainer: document.getElementById('processing-container'),
+            fileList: document.getElementById('file-list'),
+            fileCount: document.getElementById('file-count'),
+            clearAllBtn: document.getElementById('clear-all-btn'),
+            optionsArea: document.getElementById('options-area'),
+            resizeBtn: document.getElementById('resize-btn'),
+            widthInput: document.getElementById('width-input'),
+            heightInput: document.getElementById('height-input'),
+            unitSelect: document.getElementById('unit-select'),
+            presetSelect: document.getElementById('preset-select'),
+            aspectRatioLock: document.getElementById('aspect-ratio-lock'),
+            finalActionsArea: document.getElementById('final-actions-area'),
+            startOverBtn: document.getElementById('start-over-btn'),
+            exploreTools: document.getElementById('explore-tools'),
         };
-        img.src = reader.result;
-      };
-      reader.readAsDataURL(e.target.files[0]);
+
+        let originalAspectRatios = {};
+
+        const uppy = new Uppy({
+            autoProcess: false,
+            restrictions: { allowedFileTypes: ['image/jpeg', 'image/png', 'image/webp'] },
+        })
+        .use(Dashboard, {
+            trigger: '#upload-btn', inline: false, closeModalOnClickOutside: true,
+            proudlyDisplayPoweredByUppy: false, theme: 'light',
+            note: 'JPEG, PNG, and WebP only. All processing is done in your browser.',
+        })
+        .use(GoogleDrive, { companionUrl: COMPANION_URL })
+        .use(Dropbox, { companionUrl: COMPANION_URL })
+        .use(Url, { companionUrl: COMPANION_URL });
+        
+        uppy.on('file-added', (file) => {
+            const img = new Image();
+            img.onload = () => {
+                originalAspectRatios[file.id] = img.width / img.height;
+                URL.revokeObjectURL(img.src);
+            };
+            img.src = URL.createObjectURL(file.data);
+            updateFileListView();
+            addFileToUI(file);
+        });
+
+        uppy.on('file-removed', (file) => {
+            document.getElementById(`file-item-${file.id}`)?.remove();
+            delete originalAspectRatios[file.id];
+            updateFileListView();
+        });
+        
+        elements.widthInput.addEventListener('input', () => handleDimensionChange('width'));
+        elements.heightInput.addEventListener('input', () => handleDimensionChange('height'));
+        elements.presetSelect.addEventListener('change', handlePresetChange);
+        elements.aspectRatioLock.addEventListener('click', toggleAspectRatioLock);
+        elements.resizeBtn.addEventListener('click', processAllImages);
+        elements.clearAllBtn.addEventListener('click', resetTool);
+        elements.startOverBtn.addEventListener('click', resetTool);
+        
+        function updateFileListView() {
+            const files = uppy.getFiles();
+            if (files.length > 0) {
+                elements.uploadBox.classList.add('hidden');
+                elements.processingContainer.classList.remove('hidden');
+                elements.fileCount.textContent = `${files.length} File${files.length > 1 ? 's' : ''}`;
+            } else {
+                if (elements.uploadBox.classList.contains('hidden')) {
+                    resetTool();
+                }
+            }
+        }
+
+        function addFileToUI(file) {
+            const item = document.createElement('div');
+            item.className = 'file-item';
+            item.id = `file-item-${file.id}`;
+            const src = URL.createObjectURL(file.data);
+            item.innerHTML = `
+                <img src="${src}" class="file-item-thumbnail" alt="preview" onload="URL.revokeObjectURL('${src}')">
+                <div class="file-item-details">
+                    <span class="name" title="${file.name}">${file.name}</span>
+                    <span class="size">${(file.size / 1024).toFixed(2)} KB</span>
+                </div>
+                <div class="file-item-actions">
+                    <button class="file-item-remove-btn" title="Remove file">&times;</button>
+                </div>
+            `;
+            item.querySelector('.file-item-remove-btn').onclick = () => uppy.removeFile(file.id);
+            elements.fileList.appendChild(item);
+        }
+
+        function toggleAspectRatioLock() {
+            elements.aspectRatioLock.classList.toggle('locked');
+            elements.aspectRatioLock.innerHTML = elements.aspectRatioLock.classList.contains('locked') ? '<i class="fas fa-link"></i>' : '<i class="fas fa-unlink"></i>';
+        }
+
+        function handleDimensionChange(changedInput) {
+            if (!elements.aspectRatioLock.classList.contains('locked')) return;
+            const firstFileId = uppy.getFiles()[0]?.id;
+            if (!firstFileId) return;
+
+            const aspectRatio = originalAspectRatios[firstFileId];
+            if (!aspectRatio) return;
+
+            if (changedInput === 'width') {
+                const width = parseFloat(elements.widthInput.value);
+                if (!isNaN(width)) {
+                    elements.heightInput.value = Math.round(width / aspectRatio);
+                }
+            } else { // height changed
+                const height = parseFloat(elements.heightInput.value);
+                if (!isNaN(height)) {
+                    elements.widthInput.value = Math.round(height * aspectRatio);
+                }
+            }
+        }
+
+        function handlePresetChange() {
+            const value = elements.presetSelect.value;
+            if (!value) return;
+            const [width, height] = value.split('x');
+            elements.widthInput.value = width;
+            elements.heightInput.value = height;
+            elements.unitSelect.value = 'pixels';
+            // Trigger dimension change to update the other input if lock is on
+            handleDimensionChange('width');
+        }
+        
+        async function processAllImages() {
+            setUiState('processing');
+            const filesToProcess = uppy.getFiles();
+            
+            for (const file of filesToProcess) {
+                const fileItemEl = document.getElementById(`file-item-${file.id}`);
+                const actionsEl = fileItemEl.querySelector('.file-item-actions');
+                actionsEl.innerHTML = `<div style="width: 100px; text-align:right;">Resizing...</div>`;
+
+                try {
+                    const resizedBlob = await resizeImage(file);
+                    const newName = `${file.name.split('.').slice(0, -1).join('.')}-resized.${file.extension}`;
+                    
+                    const sizeEl = fileItemEl.querySelector('.size');
+                    const originalSizeKB = (file.size / 1024).toFixed(2);
+                    const newSizeKB = (resizedBlob.size / 1024).toFixed(2);
+                    sizeEl.innerHTML = `${originalSizeKB} KB → <strong>${newSizeKB} KB</strong>`;
+
+                    actionsEl.innerHTML = `<a href="${URL.createObjectURL(resizedBlob)}" download="${newName}" class="btn-icon" title="Download"><i class="fas fa-download"></i></a>`;
+                } catch (error) {
+                    console.error('Resize Error:', error);
+                    actionsEl.innerHTML = `<span style="color:var(--error-color); font-size: 0.9rem;">${error.message}</span>`;
+                }
+            }
+            setUiState('finished');
+        }
+
+        function resizeImage(file) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => {
+                    const unit = elements.unitSelect.value;
+                    let targetWidth = parseFloat(elements.widthInput.value);
+                    let targetHeight = parseFloat(elements.heightInput.value);
+
+                    if (isNaN(targetWidth) && isNaN(targetHeight)) {
+                        return reject(new Error("Set a width or height."));
+                    }
+
+                    if (unit === 'percent') {
+                        if (!isNaN(targetWidth)) targetWidth = img.width * (targetWidth / 100);
+                        if (!isNaN(targetHeight)) targetHeight = img.height * (targetHeight / 100);
+                    } else if (unit === 'inches') {
+                        if (!isNaN(targetWidth)) targetWidth = targetWidth * DPI;
+                        if (!isNaN(targetHeight)) targetHeight = targetHeight * DPI;
+                    }
+
+                    // Calculate missing dimension if lock is off but one input is empty
+                    const aspectRatio = img.width / img.height;
+                    if (isNaN(targetWidth)) targetWidth = targetHeight * aspectRatio;
+                    if (isNaN(targetHeight)) targetHeight = targetWidth / aspectRatio;
+                    
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.round(targetWidth);
+                    canvas.height = Math.round(targetHeight);
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    canvas.toBlob(blob => {
+                        if (!blob) return reject(new Error("Canvas error."));
+                        resolve(blob);
+                    }, file.type, 1.0); // Quality 1.0 for best result
+                };
+                img.onerror = () => reject(new Error("Cannot load image."));
+                img.src = URL.createObjectURL(file.data);
+            });
+        }
+        
+        function setUiState(state) {
+            if (state === 'processing') {
+                elements.optionsArea.classList.add('hidden');
+                elements.resizeBtn.classList.add('hidden');
+                elements.clearAllBtn.disabled = true;
+            } else if (state === 'finished') {
+                elements.startOverBtn.classList.remove('hidden');
+                elements.exploreTools.classList.remove('hidden');
+                elements.clearAllBtn.disabled = false;
+            }
+        }
+        
+        function resetTool() {
+            uppy.cancelAll(); 
+            originalAspectRatios = {};
+            elements.fileList.innerHTML = '';
+            elements.uploadBox.classList.remove('hidden');
+            elements.processingContainer.classList.add('hidden');
+            elements.finalActionsArea.classList.remove('hidden');
+            elements.exploreTools.classList.add('hidden');
+            elements.optionsArea.classList.remove('hidden');
+            elements.resizeBtn.classList.remove('hidden');
+            elements.startOverBtn.classList.add('hidden');
+            elements.clearAllBtn.disabled = false;
+            elements.widthInput.value = '';
+            elements.heightInput.value = '';
+            elements.unitSelect.value = 'pixels';
+            elements.presetSelect.value = '';
+            if (!elements.aspectRatioLock.classList.contains('locked')) {
+                toggleAspectRatioLock();
+            }
+        }
     });
-    function resize() {
-      const canvas = document.createElement('canvas');
-      const w = parseInt(document.getElementById('width').value);
-      const h = parseInt(document.getElementById('height').value);
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      const url = canvas.toDataURL();
-      document.getElementById('result').innerHTML = `<img src="${url}"><a href="${url}" download="resized.png">Download</a>`;
-    }
-  </script>
+</script>
+
 </body>
 </html>
