@@ -1,15 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>Contact Us</title></head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - ImageSolutions</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF4F;
+            --secondary-color: #263238;
+            --text-color: #717171;
+            --light-bg: #F5F7FA;
+            --white: #FFFFFF;
+            --border-color: #EAECEE;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+        h1, h2, h3 { color: var(--secondary-color); }
+        a { color: var(--primary-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.9rem 2rem; border-radius: 4px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; cursor: pointer; border: none; width: 100%; }
+        .btn-primary { background-color: var(--primary-color); color: var(--white); }
+        .btn-primary:hover { background-color: #45a049; }
+        .header { background-color: var(--white); padding: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo img { height: 40px; }
+        .main-nav ul { list-style: none; display: flex; gap: 2.5rem; }
+        .main-nav a { text-decoration: none; color: var(--secondary-color); font-weight: 500; }
+        .auth-buttons { display: flex; align-items: center; gap: 1rem; }
+        .auth-buttons .login { color: var(--primary-color); font-weight: 500; text-decoration: none; padding: 0.5rem 1rem;}
+        main { flex-grow: 1; padding: 4rem 0; display: flex; align-items: center; justify-content: center; }
+        .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; background: var(--white); padding: 3rem; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); align-items: center; }
+        .contact-info h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .contact-info p { line-height: 1.7; margin-bottom: 2rem; }
+        .info-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .info-item i { font-size: 1.5rem; color: var(--primary-color); width: 30px; }
+        .contact-form .form-group { margin-bottom: 1.5rem; }
+        .contact-form label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 0.9rem; border: 1px solid var(--border-color); border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 1rem; }
+        .contact-form textarea { resize: vertical; min-height: 120px; }
+        .site-footer { background-color: #263238; color: #F5F7FA; padding: 4rem 0 2rem; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; padding-bottom: 3rem; border-bottom: 1px solid #455A64; }
+        .footer-col h4 { font-size: 1.25rem; color: var(--white); margin-bottom: 1rem; }
+        .footer-col p { color: #D9DBE1; line-height: 1.6; }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col li { margin-bottom: 0.75rem; }
+        .footer-col a { text-decoration: none; color: #D9DBE1; transition: color 0.3s ease; }
+        .footer-col a:hover { color: var(--primary-color); }
+        .footer-bottom { text-align: center; padding-top: 2rem; font-size: 0.9rem; color: #D9DBE1; }
+        @media (max-width: 900px) { .contact-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
 <body>
-  <h1>Contact Us</h1>
-  <p>Email: <a href="mailto:contact@imagesolutions.online">contact@imagesolutions.online</a></p>
-  <p>WhatsApp: <a href="https://wa.me/923001234567">+92 300 1234567</a></p>
-  <form action="https://formsubmit.co/YOUR_EMAIL" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required><br>
-    <input type="email" name="email" placeholder="Your Email" required><br>
-    <textarea name="message" placeholder="Your Message" required></textarea><br>
-    <button type="submit">Send</button>
-  </form>
+
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo"><img src="assets/images/logo.svg" alt="ImageSolutions Logo"></a>
+            <nav class="main-nav"><ul><li><a href="about.html">About</a></li><li><a href="index.html#features">Features</a></li><li><a href="contact.html">Contact</a></li></ul></nav>
+            <div class="auth-buttons"><a href="#" class="login">Login</a><a href="#" class="btn btn-primary">Sign Up Free</a></div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="contact-layout">
+                <div class="contact-info">
+                    <h2>Get in Touch</h2>
+                    <p>Have a question, a project idea, or need a custom solution? We'd love to hear from you. Fill out the form, or contact us directly via WhatsApp for a quicker response.</p>
+                    <div class="info-item">
+                        <i class="fas fa-globe"></i>
+                        <span><a href="https://www.imagesolutions.online" target="_blank">www.imagesolutions.online</a></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp for Orders: <a href="https://wa.me/923445280914" target="_blank">+92-344-5280914</a></span>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <!-- IMPORTANT: Replace "YOUR_FORM_ENDPOINT" with your form service URL (e.g., Formspree) -->
+                    <form action="YOUR_FORM_ENDPOINT" method="POST">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><a href="index.html" class="logo"><img src="assets/images/logo-footer.svg" alt="ImageSolutions Logo"></a><p style="margin-top: 1rem;">A suite of powerful, private, and free online image tools designed for everyone.</p></div>
+                <div class="footer-col"><h4>Tools</h4><ul><li><a href="tools/compress.html">Compress Image</a></li><li><a href="tools/resize.html">Resize Image</a></li><li><a href="tools/crop.html">Crop Image</a></li><li><a href="tools/convert.html">Convert Image</a></li></ul></div>
+                <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact Us</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms-of-service.html">Terms of Service</a></li></ul></div>
+                <div class="footer-col"><h4>Stay up to date</h4><p>Get tips and updates (placeholder).</p></div>
+            </div>
+            <div class="footer-bottom"><p>© 2025 ImageSolutions. All rights reserved.</p></div>
+        </div>
+    </footer>
+
 </body>
 </html>

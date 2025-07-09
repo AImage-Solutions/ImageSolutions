@@ -1,8 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>About ImageSolutions</title></head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us - ImageSolutions</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF4F;
+            --secondary-color: #263238;
+            --text-color: #717171;
+            --light-bg: #F5F7FA;
+            --white: #FFFFFF;
+            --border-color: #EAECEE;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+        h1, h2, h3 { color: var(--secondary-color); }
+        p { line-height: 1.7; margin-bottom: 1rem; }
+        a { color: var(--primary-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; border-radius: 4px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; cursor: pointer; border: none; }
+        .btn-primary { background-color: var(--primary-color); color: var(--white); }
+        .btn-primary:hover { background-color: #45a049; }
+        .header { background-color: var(--white); padding: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .header .container { max-width: 1100px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo img { height: 40px; }
+        .main-nav ul { list-style: none; display: flex; gap: 2.5rem; }
+        .main-nav a { text-decoration: none; color: var(--secondary-color); font-weight: 500; }
+        .auth-buttons { display: flex; align-items: center; gap: 1rem; }
+        .auth-buttons .login { color: var(--primary-color); font-weight: 500; text-decoration: none; padding: 0.5rem 1rem;}
+        main { flex-grow: 1; padding: 4rem 0; }
+        .page-content { background: var(--white); padding: 3rem; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .developer-header { text-align: center; margin-bottom: 3rem; }
+        .developer-header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid var(--primary-color);
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        .developer-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .developer-header h2 { font-size: 1.25rem; font-weight: 400; color: var(--text-color); }
+        .content-section h3 { font-size: 1.75rem; margin-top: 2.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color); text-align: center; }
+        .contact-info { margin-top: 2rem; }
+        .contact-info p { display: flex; align-items: center; gap: 0.75rem; font-size: 1.1rem; }
+        .contact-info i { color: var(--primary-color); }
+        
+        /* CORRECTED AND COMPLETE FOOTER STYLES */
+        .site-footer { background-color: #263238; color: #F5F7FA; padding: 4rem 0 2rem; margin-top: auto; }
+        .site-footer .container { max-width: 1100px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; padding-bottom: 3rem; border-bottom: 1px solid #455A64; }
+        .footer-col h4 { font-size: 1.25rem; color: var(--white); margin-bottom: 1rem; }
+        .footer-col p { color: #D9DBE1; line-height: 1.6; } /* THIS RULE WAS MISSING/FAULTY BEFORE */
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col li { margin-bottom: 0.75rem; }
+        .footer-col a { text-decoration: none; color: #D9DBE1; transition: color 0.3s ease; }
+        .footer-col a:hover { color: var(--primary-color); }
+        .footer-bottom { text-align: center; padding-top: 2rem; font-size: 0.9rem; color: #D9DBE1; }
+    </style>
+</head>
 <body>
-  <h1>About ImageSolutions</h1>
-  <p>ImageSolutions is a professional-grade suite of image tools, including compression, resizing, cropping, and format conversion. Fast, private, and easy to use.</p>
+
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo"><img src="assets/images/logo.svg" alt="ImageSolutions Logo"></a>
+            <nav class="main-nav"><ul><li><a href="about.html">About</a></li><li><a href="index.html#features">Features</a></li><li><a href="contact.html">Contact</a></li></ul></nav>
+            <div class="auth-buttons"><a href="#" class="login">Login</a><a href="#" class="btn btn-primary">Sign Up Free</a></div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-content">
+                
+                <!-- Section 1: About the Developer -->
+                <div class="developer-header">
+                    <!-- IMPORTANT: Replace this src with the path to your image -->
+                    <img src="https://via.placeholder.com/150" alt="Profile picture of Naseer Safder Mughal">
+                    <h1>Naseer Safder Mughal</h1>
+                    <h2>Full-Stack Web Developer & Creator of ImageSolutions</h2>
+                </div>
+                <div class="content-section">
+                    <h3>Hello!</h3>
+                    <p>My name is Naseer Safder Mughal, and I'm the developer behind ImageSolutions. As a passionate web developer with a keen interest in creating practical, user-centric tools, I built this platform to solve a common problem: the need for quick, secure, and high-quality image editing without the hassle of installing software or compromising privacy.</p>
+                    <p>I believe in the power of the open web and modern browser technologies. This entire suite of tools is my testament to that belief, showcasing what can be achieved client-side to deliver a superior user experience. I hope you find these tools as useful as I enjoyed building them.</p>
+                     <div class="contact-info">
+                        <p><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/923445280914" target="_blank">+92-344-5280914</a></p>
+                    </div>
+                </div>
+
+                <!-- Section 2: About the Application -->
+                <div class="content-section">
+                    <h3>About ImageSolutions</h3>
+                    <p>At ImageSolutions, our mission is simple: to provide the best suite of online image utilities that are fast, free, and completely private. We believe that you shouldn't have to upload your sensitive images to a server just to perform basic tasks like converting, compressing, resizing, or cropping. That's why we've engineered every tool on this website to run directly in your web browser.</p>
+                    <p>Your files never leave your computer. All the processing is done client-side using the power of your own machine. This not only makes the tools incredibly fast—eliminating upload and download wait times—but also ensures your privacy is 100% protected.</p>
+                    <div class="contact-info">
+                        <p><i class="fas fa-globe"></i> Website: <a href="https://www.imagesolutions.online" target="_blank">www.imagesolutions.online</a></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo">
+                        <img src="assets/images/logo-footer.svg" alt="ImageSolutions Logo">
+                    </a>
+                    <p style="margin-top: 1rem;">A suite of powerful, private, and free online image tools designed for everyone.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4>
+                    <ul>
+                        <li><a href="tools/compress.html">Compress Image</a></li>
+                        <li><a href="tools/resize.html">Resize Image</a></li>
+                        <li><a href="tools/crop.html">Crop Image</a></li>
+                        <li><a href="tools/convert.html">Convert Image</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Stay up to date</h4>
+                    <p>Get tips and updates (placeholder).</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 ImageSolutions. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
