@@ -6,7 +6,7 @@
   <title>ImageSolutions - Online Image Tools</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
       --primary-color: #4CAF4F;
@@ -14,6 +14,7 @@
       --text-color: #717171;
       --light-bg: #F5F7FA;
       --white: #FFFFFF;
+      --border-color: #EAECEE;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -31,7 +32,8 @@
     .logo { display: flex; align-items: center; text-decoration: none; }
     .logo img { height: 40px; }
     .main-nav ul { list-style: none; display: flex; gap: 2.5rem; }
-    .main-nav a { text-decoration: none; color: var(--secondary-color); font-weight: 500; }
+    .main-nav a { text-decoration: none; color: var(--secondary-color); font-weight: 500; display: flex; align-items: center; gap: 0.5rem; }
+    .main-nav a i { color: var(--primary-color); }
     .auth-buttons { display: flex; align-items: center; gap: 1rem; }
     .auth-buttons .login { color: var(--primary-color); font-weight: 500; text-decoration: none; padding: 0.5rem 1rem;}
     .hero { background-color: var(--light-bg); padding: 4rem 0; }
@@ -40,33 +42,71 @@
     .hero-text span { color: var(--primary-color); }
     .hero-text p { margin: 1.5rem 0; }
     .hero-image { flex-basis: 50%; }
-    .hero-image img { width: 100%; }
+    .hero-image svg { width: 100%; height: auto; }
     .our-tools { text-align: center; padding: 4rem 0; }
     .our-tools h2 { margin-bottom: 1rem; }
-    .our-tools p { margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
-    .tool-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem; }
-    .tool-card { padding: 2rem; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 8px; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .tool-card:hover { transform: translateY(-10px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-    .tool-card img { height: 48px; margin-bottom: 1rem; }
-    .tool-card h3 { margin-bottom: 0.5rem; font-size: 1.75rem; }
+    .our-tools p { margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+    
+    /* NEW MINIMALIST CATEGORY STYLES */
+    .tool-category-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .category-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 120px;
+      height: 100px;
+      padding: 1rem 0.5rem;
+      text-align: center;
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--secondary-color);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .category-link:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      border-color: var(--primary-color);
+    }
+    .category-icon {
+      font-size: 2rem;
+      color: var(--primary-color);
+      margin-bottom: 0.75rem;
+    }
+    .category-link h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
     .features-section { padding: 4rem 0; background-color: var(--light-bg); }
     .features-header { text-align: center; max-width: 650px; margin: 0 auto 3rem auto; }
     .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
     .feature-card { background-color: var(--white); padding: 2rem; text-align: center; border-radius: 8px; box-shadow: 0 2px 4px rgba(113,113,113,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
     .feature-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(113,113,113,0.1); }
-    .feature-card i { font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem; }
-    .feature-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+    .feature-card-icon { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1.5rem; width: 60px; height: 60px; line-height: 60px; background: #e8f5e9; border-radius: 50%; display: inline-block; }
+    .feature-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
     .cta-section { background-color: var(--white); padding: 4rem 0; text-align: center; }
     .cta-section h2 { font-size: 3rem; margin-bottom: 1.5rem; }
     .cta-section h2 span { display: block; }
     .site-footer { background-color: #263238; color: #F5F7FA; padding: 4rem 0 2rem; }
+    .site-footer .container { max-width: 1100px; }
     .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; padding-bottom: 3rem; border-bottom: 1px solid #455A64; }
     .footer-col h4 { font-size: 1.25rem; color: var(--white); margin-bottom: 1rem; }
-    .footer-col p { color: #D9DBE1; }
-    .footer-col ul { list-style: none; }
+    .footer-col p { color: #D9DBE1; line-height: 1.6; }
+    .footer-col ul { list-style: none; padding: 0; }
     .footer-col li { margin-bottom: 0.75rem; }
-    .footer-col a { text-decoration: none; color: #D9DBE1; transition: color 0.3s ease; }
+    .footer-col a { text-decoration: none; color: #D9DBE1; transition: color 0.3s ease; display: flex; align-items: center; gap: 0.75rem; }
     .footer-col a:hover { color: var(--primary-color); }
+    .footer-col a i { width: 16px; text-align: center; }
     .footer-bottom { text-align: center; padding-top: 2rem; font-size: 0.9rem; color: #D9DBE1; }
     @media (max-width: 992px) {
       h1 { font-size: 2.8rem; } h2 { font-size: 1.8rem; }
@@ -86,9 +126,9 @@
       </a>
       <nav class="main-nav">
         <ul>
-          <li><a href="about.html">About</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+          <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
+          <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
         </ul>
       </nav>
       <div class="auth-buttons">
@@ -107,36 +147,72 @@
           <a href="#tools" class="btn btn-primary">Get Started</a>
         </div>
         <div class="hero-image">
-          <img src="assets/illustrations/hero-illustration.svg" alt="Illustration of image editing tools">
+          <svg viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="800" height="600" rx="8" fill="#F5F7FA"/>
+            <rect x="56" y="56" width="688" height="488" rx="8" fill="white" stroke="#EAECEE" stroke-width="2"/>
+            <path d="M56 120H744" stroke="#EAECEE" stroke-width="2"/>
+            <rect x="80" y="80" width="12" height="12" rx="6" fill="#f87171"/>
+            <rect x="104" y="80" width="12" height="12" rx="6" fill="#fbbf24"/>
+            <rect x="128" y="80" width="12" height="12" rx="6" fill="#34d399"/>
+            <rect x="88" y="160" width="280" height="340" rx="8" fill="#F5F7FA"/>
+            <rect x="88" y="160" width="280" height="64" rx="8" fill="#E8F5E9"/>
+            <path d="M120 184L152 208L120 208L120 184Z" fill="#A5D6A7"/>
+            <path d="M144 192L176 176L176 208L144 192Z" fill="#A5D6A7"/>
+            <circle cx="152" cy="192" r="12" fill="#4CAF4F"/>
+            <text fill="#263238" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="16" font-weight="600" letter-spacing="0em"><tspan x="184" y="197.864">your-image.jpg</tspan></text>
+            <rect x="120" y="256" width="216" height="8" rx="4" fill="#EAECEE"/>
+            <rect x="120" y="280" width="160" height="8" rx="4" fill="#EAECEE"/>
+            <rect x="120" y="320" width="216" height="32" rx="4" fill="#EAECEE"/>
+            <rect x="120" y="368" width="104" height="32" rx="4" fill="#EAECEE"/>
+            <rect x="232" y="368" width="104" height="32" rx="4" fill="#EAECEE"/>
+            <rect x="120" y="432" width="216" height="40" rx="4" fill="#4CAF4F"/>
+            <text fill="white" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="14" font-weight="600" letter-spacing="0em"><tspan x="180" y="457.891">Process</tspan></text>
+            <rect x="432" y="160" width="280" height="80" rx="8" fill="#F5F7FA"/>
+            <rect x="432" y="160" width="280" height="80" rx="8" fill="white" stroke="#4CAF4F" stroke-width="2"/>
+            <rect x="456" y="184" width="32" height="32" rx="4" fill="#E8F5E9"/>
+            <path d="M461.333 194.667L468 201.333L480.667 188.667" stroke="#4CAF4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <text fill="#263238" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="14" font-weight="600" letter-spacing="0em"><tspan x="504" y="192.891">Convert</tspan></text>
+            <path d="M680 192L674 186L686 198" stroke="#4CAF4F" stroke-width="2"/>
+            <rect x="432" y="272" width="280" height="80" rx="8" fill="#F5F7FA"/>
+            <rect x="456" y="296" width="32" height="32" rx="4" fill="#EAECEE"/>
+            <text fill="#717171" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="14" font-weight="500" letter-spacing="0em"><tspan x="504" y="314.891">Compress</tspan></text>
+            <rect x="432" y="384" width="280" height="80" rx="8" fill="#F5F7FA"/>
+            <rect x="456" y="408" width="32" height="32" rx="4" fill="#EAECEE"/>
+            <text fill="#717171" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="14" font-weight="500" letter-spacing="0em"><tspan x="504" y="426.891">Resize</tspan></text>
+          </svg>
         </div>
       </div>
     </section>
 
+    <!-- NEW AND IMPROVED MINIMALIST TOOLS SECTION -->
     <section class="our-tools" id="tools">
       <div class="container">
         <h2>All The Tools You Need</h2>
         <p>A complete suite of professional-grade image utilities, ready when you are. Click any tool to begin.</p>
-        <div class="tool-cards">
-          <div class="tool-card" onclick="window.location.href='tools/compress.html'">
-            <img src="https://api.iconify.design/material-symbols/compress.svg?color=%234caf4f" alt="Compress Icon">
-            <h3>Compress</h3>
-            <p>Drastically reduce file size.</p>
-          </div>
-          <div class="tool-card" onclick="window.location.href='tools/resize.html'">
-            <img src="https://api.iconify.design/material-symbols/aspect-ratio-outline.svg?color=%234caf4f" alt="Resize Icon">
-            <h3>Resize</h3>
-            <p>Change image dimensions.</p>
-          </div>
-          <div class="tool-card" onclick="window.location.href='tools/crop.html'">
-            <img src="https://api.iconify.design/material-symbols/crop.svg?color=%234caf4f" alt="Crop Icon">
-            <h3>Crop</h3>
-            <p>Cut to the perfect frame.</p>
-          </div>
-          <div class="tool-card" onclick="window.location.href='tools/convert.html'">
-            <img src="https://api.iconify.design/material-symbols/autorenew.svg?color=%234caf4f" alt="Convert Icon">
+        <div class="tool-category-bar">
+            
+          <a href="tools/convert.html" class="category-link">
+            <i class="fas fa-sync-alt category-icon"></i>
             <h3>Convert</h3>
-            <p>Switch between formats.</p>
-          </div>
+          </a>
+
+          <a href="tools/compress.html" class="category-link">
+            <i class="fas fa-compress-arrows-alt category-icon"></i>
+            <h3>Compress</h3>
+          </a>
+
+          <a href="tools/resize.html" class="category-link">
+            <i class="fas fa-expand-arrows-alt category-icon"></i>
+            <h3>Resize</h3>
+          </a>
+
+          <a href="tools/crop.html" class="category-link">
+            <i class="fas fa-crop-alt category-icon"></i>
+            <h3>Crop</h3>
+          </a>
+          
+          <!-- You can add more tools here in the future -->
+
         </div>
       </div>
     </section>
@@ -149,22 +225,22 @@
             </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <i class="fas fa-shield-alt"></i>
+                    <div class="feature-card-icon"><i class="fas fa-shield-alt"></i></div>
                     <h3>Absolute Privacy</h3>
                     <p>Your images are processed in your browser. Nothing is ever uploaded to a server, ensuring 100% confidentiality.</p>
                 </div>
                 <div class="feature-card">
-                    <i class="fas fa-bolt"></i>
+                    <div class="feature-card-icon"><i class="fas fa-bolt"></i></div>
                     <h3>Blazing Fast Speed</h3>
                     <p>By using your computer's power, not a distant server, tasks are completed instantly. No more waiting for uploads.</p>
                 </div>
                 <div class="feature-card">
-                    <i class="fas fa-gem"></i>
+                    <div class="feature-card-icon"><i class="fas fa-gem"></i></div>
                     <h3>High-Quality Results</h3>
                     <p>Our tools use advanced algorithms to ensure your images look great, with minimal quality loss during processing.</p>
                 </div>
                 <div class="feature-card">
-                    <i class="fas fa-gift"></i>
+                    <div class="feature-card-icon"><i class="fas fa-gift"></i></div>
                     <h3>Completely Free</h3>
                     <p>Access all our powerful image tools for free, without any limits on usage. No hidden fees, no subscriptions.</p>
                 </div>
@@ -185,27 +261,26 @@
       <div class="footer-grid">
         <div class="footer-col">
           <a href="index.html" class="logo">
-            <!-- FIX 1: This now correctly points to the logo with the white text. -->
             <img src="assets/images/logo-footer.svg" alt="ImageSolutions Logo">
           </a>
           <p style="margin-top: 1rem;">A suite of powerful, private, and free online image tools designed for everyone.</p>
         </div>
         <div class="footer-col">
-          <h4>Company</h4>
+          <h4>Tools</h4>
           <ul>
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-            <li><a href="privacy-policy.html">Privacy Policy</a></li>
-            <li><a href="terms-of-use.html">Terms of Service</a></li>
+            <li><a href="tools/compress.html"><i class="fas fa-compress-arrows-alt"></i>Compress Image</a></li>
+            <li><a href="tools/resize.html"><i class="fas fa-expand-arrows-alt"></i>Resize Image</a></li>
+            <li><a href="tools/crop.html"><i class="fas fa-crop-alt"></i>Crop Image</a></li>
+            <li><a href="tools/convert.html"><i class="fas fa-sync-alt"></i>Convert Image</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Tools</h4>
+          <h4>Company</h4>
           <ul>
-            <li><a href="tools/compress.html">Compress Image</a></li>
-            <li><a href="tools/resize.html">Resize Image</a></li>
-            <li><a href="tools/crop.html">Crop Image</a></li>
-            <li><a href="tools/convert.html">Convert Image</a></li>
+            <li><a href="about.html"><i class="fas fa-user-friends"></i>About Us</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i>Contact Us</a></li>
+            <li><a href="privacy-policy.html"><i class="fas fa-user-secret"></i>Privacy Policy</a></li>
+            <li><a href="terms-of-service.html"><i class="fas fa-file-signature"></i>Terms of Service</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -214,7 +289,6 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <!-- FIX 2: The extra credit line has been permanently removed. -->
         <p>© 2025 ImageSolutions. All rights reserved.</p>
       </div>
     </div>
